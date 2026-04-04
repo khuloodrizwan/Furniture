@@ -3,10 +3,10 @@ import favoriteModel from '../models/favoriteModel.js';
 // Add to favorites
 const addFavorite = async (req, res) => {
   try {
-    const { userId, foodId, foodName, recommendation } = req.body;
+    const { userId, furId, furName, recommendation } = req.body;
 
     // Check if already favorited
-    const existingFavorite = await favoriteModel.findOne({ userId, foodId });
+    const existingFavorite = await favoriteModel.findOne({ userId, furId });
     
     if (existingFavorite) {
       return res.json({
@@ -17,8 +17,8 @@ const addFavorite = async (req, res) => {
 
     const favorite = new favoriteModel({
       userId,
-      foodId,
-      foodName,
+      furId,
+      furName,
       recommendation
     });
 
@@ -62,9 +62,9 @@ const getFavorites = async (req, res) => {
 // Remove from favorites
 const removeFavorite = async (req, res) => {
   try {
-    const { userId, foodId } = req.body;
+    const { userId, furId } = req.body;
 
-    await favoriteModel.findOneAndDelete({ userId, foodId });
+    await favoriteModel.findOneAndDelete({ userId, furId });
 
     res.json({
       success: true,

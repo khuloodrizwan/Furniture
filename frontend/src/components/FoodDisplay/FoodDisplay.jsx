@@ -1,19 +1,19 @@
 import React, { useContext } from 'react'
-import './FoodDisplay.css'
-import FoodItem from '../FoodItem/FoodItem'
+import './FurDisplay.css'
+import FurItem from '../FurItem/FurItem'
 import { StoreContext } from '../../Context/StoreContext'
 
-const FoodDisplay = ({category}) => {
+const FurDisplay = ({category}) => {
 
   const {fur_list} = useContext(StoreContext);
 
   return (
-    <div className='food-display' id='food-display'>
+    <div className='fur-display' id='fur-display'>
       <h2>Top Pick Furnitures for you</h2>
-      <div className='food-display-list'>
+      <div className='fur-display-list'>
         {fur_list.map((item,index)=>{
           if (category==="All" || category===item.category) {
-            return <FoodItem key={index} id={item._id} name={item.name} description={item.description} price={item.price}  image={item.image}/>
+            return <FurItem key={index} id={item._id} name={item.name} description={item.description} price={item.price}  image={item.image}/>
           }
         })}
       </div>
@@ -21,4 +21,4 @@ const FoodDisplay = ({category}) => {
   )
 }
 
-export default FoodDisplay
+export default FurDisplay

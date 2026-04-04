@@ -1,34 +1,34 @@
 import React, { useState } from 'react';
-import './FoodCard.css';
+import './FurCard.css';
 
-const FoodCard = ({ food, url, onAddToCart, onAddToFavorite, isFavorited }) => {
+const FurCard = ({ fur, url, onAddToCart, onAddToFavorite, isFavorited }) => {
   const [showNutrition, setShowNutrition] = useState(false);
 
   return (
-    <div className="food-card">
-      <div className="food-card-image">
+    <div className="fur-card">
+      <div className="fur-card-image">
         <img 
-          src={food.image ? `${url}/images/${food.image}` : `${url}/images/food_1.png`} 
-          alt={food.name} 
+          src={fur.image ? `${url}/images/${fur.image}` : `${url}/images/f_1.png`} 
+          alt={fur.name} 
         />
         <button 
           className={`favorite-btn ${isFavorited ? 'favorited' : ''}`}
-          onClick={() => onAddToFavorite(food)}
+          onClick={() => onAddToFavorite(fur)}
         >
           {isFavorited ? '❤️' : '🤍'}
         </button>
       </div>
       
-      <div className="food-card-content">
-        <div className="food-card-header">
-          <h3>{food.name}</h3>
-          <span className="food-price">₹{food.price}</span>
+      <div className="fur-card-content">
+        <div className="fur-card-header">
+          <h3>{fur.name}</h3>
+          <span className="fur-price">₹{fur.price}</span>
         </div>
         
-        <p className="food-category">{food.category}</p>
-        <p className="food-description">{food.description}</p>
+        <p className="fur-category">{fur.category}</p>
+        <p className="fur-description">{fur.description}</p>
         
-        {food.nutrition && (
+        {fur.nutrition && (
           <div className="nutrition-section">
             <button 
               className="nutrition-toggle"
@@ -41,19 +41,19 @@ const FoodCard = ({ food, url, onAddToCart, onAddToFavorite, isFavorited }) => {
               <div className="nutrition-details">
                 <div className="nutrition-item">
                   <span>Calories:</span>
-                  <strong>{food.nutrition.calories} kcal</strong>
+                  <strong>{fur.nutrition.calories} kcal</strong>
                 </div>
                 <div className="nutrition-item">
                   <span>Protein:</span>
-                  <strong>{food.nutrition.protein}g</strong>
+                  <strong>{fur.nutrition.protein}g</strong>
                 </div>
                 <div className="nutrition-item">
                   <span>Carbs:</span>
-                  <strong>{food.nutrition.carbs}g</strong>
+                  <strong>{fur.nutrition.carbs}g</strong>
                 </div>
                 <div className="nutrition-item">
                   <span>Fat:</span>
-                  <strong>{food.nutrition.fat}g</strong>
+                  <strong>{fur.nutrition.fat}g</strong>
                 </div>
               </div>
             )}
@@ -62,7 +62,7 @@ const FoodCard = ({ food, url, onAddToCart, onAddToFavorite, isFavorited }) => {
         
         <button 
           className="add-to-cart-btn"
-          onClick={() => onAddToCart(food._id || food.id)}
+          onClick={() => onAddToCart(fur._id || fur.id)}
         >
           Add to Cart
         </button>
@@ -71,4 +71,4 @@ const FoodCard = ({ food, url, onAddToCart, onAddToFavorite, isFavorited }) => {
   );
 };
 
-export default FoodCard;
+export default FurCard;

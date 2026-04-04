@@ -42,7 +42,7 @@ const Order = ({url}) => {
           <div key={index} className='order-item'>
             <img src={assets.parcel_icon} alt="" />
             <div>
-              <p className='order-item-food'>
+              <p className='order-item-fur'>
                 {order.items.map((item, index) => {
                   if (index === order.items.length - 1) {
                     return item.name + " x " + item.quantity
@@ -62,7 +62,7 @@ const Order = ({url}) => {
             <p>Items : {order.items.length}</p>
             <p>{currency}{order.amount}</p>
             <select onChange={(e) => statusHandler(e, order._id)} value={order.status} name="" id="">
-              <option value="Food Processing">Food Processing</option>
+              <option value="FurProcessing">Furniture Processing</option>
               <option value="Out for delivery">Out for delivery</option>
               <option value="Delivered">Delivered</option>
             </select>

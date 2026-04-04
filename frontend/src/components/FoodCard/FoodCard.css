@@ -7,19 +7,19 @@
   margin: 12px 0;
 }
 
-.food-card:hover {
+.fur-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.food-card-image {
+.fur-card-image {
   position: relative;
   width: 100%;
   height: 180px;
   overflow: hidden;
 }
 
-.food-card-image img {
+.fur-card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -48,25 +48,25 @@
   animation: heartBeat 0.3s ease;
 }
 
-.food-card-content {
+.fur-card-content {
   padding: 16px;
 }
 
-.food-card-header {
+.fur-card-header {
   display: flex;
   justify-content: space-between;
   align-items: start;
   margin-bottom: 8px;
 }
 
-.food-card-header h3 {
+.fur-card-header h3 {
   font-size: 18px;
   color: #333;
   margin: 0;
   flex: 1;
 }
 
-.food-price {
+.fur-price {
   font-size: 18px;
   font-weight: 700;
   color: #ff6347;
@@ -74,7 +74,7 @@
   margin-left: 8px;
 }
 
-.food-category {
+.fur-category {
   display: inline-block;
   padding: 4px 12px;
   background: #f0f0f0;
@@ -84,7 +84,7 @@
   margin-bottom: 8px;
 }
 
-.food-description {
+.fur-description {
   font-size: 14px;
   color: #666;
   line-height: 1.4;
@@ -166,7 +166,7 @@
 }
 
 @media (max-width: 768px) {
-  .food-card-image {
+  .fur-card-image {
     height: 150px;
   }
 

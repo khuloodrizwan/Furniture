@@ -178,18 +178,18 @@ const AIChat = ({ url, token }) => {
       return;
     }
 
-    const isFavorited = favorites.some(fav => fav.foodId === (food._id || food.id));
+    const isFavorited = favorites.some(fav => fav.furId === (fur._id || fur.id));
 
     if (isFavorited) {
       try {
         const response = await axios.post(
           `${url}/api/favorite/remove`,
-          { userId: 'user', foodId: food._id || food.id },
+          { userId: 'user', furId: fur._id || fur.id },
           { headers: { token } }
         );
 
         if (response.data.success) {
-          setFavorites(prev => prev.filter(fav => fav.foodId !== (food._id || food.id)));
+          setFavorites(prev => prev.filter(fav => fav.furId !== (fur._id || fur.id)));
           toast.success("Removed from favorites");
         }
       } catch (error) {
@@ -202,17 +202,17 @@ const AIChat = ({ url, token }) => {
           `${url}/api/favorite/add`,
           {
             userId: 'user',
-            foodId: food._id || food.id,
-            foodName: food.name,
-            recommendation: `AI recommended: ${food.name}`
+            furId: fur._id || fur.id,
+            furName: fur.name,
+            recommendation: `AI recommended: ${fur.name}`
           },
           { headers: { token } }
         );
 
         if (response.data.success) {
           setFavorites(prev => [...prev, {
-            foodId: food._id || food.id,
-            foodName: food.name
+            furId: fur._id || fur.id,
+            furName: fur.name
           }]);
           toast.success("Added to favorites!");
         }
@@ -262,19 +262,19 @@ const AIChat = ({ url, token }) => {
           </div>
         )}
 
-        {/* Recommended Foods Cards */}
-        {recommendedFoods.length > 0 && (
-          <div className="recommended-foods-section">
+        {/* Recommended Furs Cards */}
+        {recommendedFurs.length > 0 && (
+          <div className="recommended-furs-section">
             <h3>🍽️ Recommended Dishes</h3>
-            <div className="recommended-foods-grid">
-              {recommendedFoods.map((food) => (
-                <FoodCard
-                  key={food.id}
-                  food={food}
+            <div className="recommended-furs-grid">
+              {recommendedFurs.map((fur) => (
+                <FurCard
+                  key={fur.id}
+                  fur={fur}
                   url={url}
                   onAddToCart={handleAddToCart}
                   onAddToFavorite={handleAddToFavorite}
-                  isFavorited={favorites.some(fav => fav.foodId === food.id)}
+                  isFavorited={favorites.some(fav => fav.furId === fur.id)}
                 />
               ))}
             </div>
@@ -308,7 +308,7 @@ const AIChat = ({ url, token }) => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask me anything about food..."
+          placeholder="Ask me anything about fur..."
           disabled={loading}
         />
         <button type="submit" disabled={loading || !input.trim()}>
