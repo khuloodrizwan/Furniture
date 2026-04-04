@@ -1,7 +1,7 @@
 import basket_icon from './basket_icon.png'
 import logo from './logo.png'
 import foodydoologo from './foodydoologo.png'
-import header_img from './header_img.png'
+import main from'./main.jpeg'
 import search_icon from './search_icon.png'
 import menu_1 from './menu_1.png'
 import menu_2 from './menu_2.png'
@@ -64,7 +64,7 @@ export const assets = {
     logo,
     foodydoologo,
     basket_icon,
-    header_img,
+    main,
     search_icon,
     rating_starts,
     add_icon_green,
@@ -85,35 +85,35 @@ export const assets = {
 
 export const menu_list = [
     {
-        menu_name: "Salad",
+        menu_name: "Sofa",
         menu_image: menu_1
     },
     {
-        menu_name: "Rolls",
+        menu_name: "Bed",
         menu_image: menu_2
     },
     {
-        menu_name: "Deserts",
+        menu_name: "Dinning Table",
         menu_image: menu_3
     },
     {
-        menu_name: "Sandwich",
+        menu_name: "Chair",
         menu_image: menu_4
     },
     {
-        menu_name: "Cake",
+        menu_name: "Wardrobe",
         menu_image: menu_5
     },
     {
-        menu_name: "Pure Veg",
+        menu_name: "Bookshelf",
         menu_image: menu_6
     },
     {
-        menu_name: "Pasta",
+        menu_name: "Study Desk",
         menu_image: menu_7
     },
     {
-        menu_name: "Noodles",
+        menu_name: "TV Unit",
         menu_image: menu_8
     }]
 

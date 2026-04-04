@@ -6,10 +6,13 @@
   box-sizing: border-box;
   font-family: 'Outfit', sans-serif;
   scroll-behavior: smooth;
+  
 }
 
 body {
   min-height: 100vh;
+  background-color: #F3E4DB;
+  color: #446955;
 }
 
 a {

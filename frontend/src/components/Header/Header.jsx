@@ -1,13 +1,18 @@
 import React from 'react'
 import './Header.css'
+import { assets } from '../../assets/assets'
+
 
 const Header = () => {
     return (
-        <div className='header'>
+        <div className="header">
+     <img src={assets.main} alt="header" className="header-img" />
             <div className='header-contents'>
-                <h2>Order your favourite food here</h2>
-                <p>Choose from a diverse menu featuring a delectable array of dishes crafted with the finest ingredients and culinary expertise. Our mission is to satisfy your cravings and elevate your dining experience, one delicious meal at a time.</p>
-                <a href='#explore-menu'> View Menu </a>
+                <h2>Find your perfect furniture</h2>
+                <p>Explore a wide range of stylish and comfortable furniture designed to fit your lifestyle. 
+From cozy essentials to modern statement pieces, RentEase makes it easy to furnish your space 
+without the hassle of ownership. Enjoy flexibility, affordability, and convenience—all in one place.</p>
+                <a href='#explore-menu'> Explore Furniture</a>
             </div>
         </div>
     )
