@@ -100,8 +100,8 @@
   animation-delay: -0.16s;
 }
 
-/* Recommended Foods Section */
-.recommended-foods-section {
+/* Recommended Furs Section */
+.recommended-furs-section {
   margin: 20px 0;
   padding: 16px;
   background: linear-gradient(135deg, #fff5f5 0%, #ffeef0 100%);
@@ -109,13 +109,13 @@
   animation: slideIn 0.5s ease;
 }
 
-.recommended-foods-section h3 {
+.recommended-furs-section h3 {
   font-size: 18px;
   color: #333;
   margin: 0 0 16px 0;
 }
 
-.recommended-foods-grid {
+.recommended-furs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 16px;
@@ -244,7 +244,7 @@
     max-width: 90%;
   }
 
-  .recommended-foods-grid {
+  .recommended-furs-grid {
     grid-template-columns: 1fr;
   }
 

@@ -141,7 +141,7 @@
     display: none;
     right: 0;
     top: 42px;
-    z-index: 1;
+    z-index: 1001;
 }
 
 .navbar-profile:hover .navbar-profile-dropdown {

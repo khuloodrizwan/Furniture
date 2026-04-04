@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import './AIChat.css';
 import axios from 'axios';
-import FoodCard from '../FoodCard/FoodCard';
+import FurCard from '../FurCard/FurCard';
 import { StoreContext } from '../../Context/StoreContext';
 import { toast } from 'react-toastify';
 
@@ -10,7 +10,7 @@ const AIChat = ({ url, token }) => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
-  const [recommendedFoods, setRecommendedFoods] = useState([]);
+  const [recommendedFurs, setRecommendedFurs] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const messagesEndRef = useRef(null);
   const { addToCart } = useContext(StoreContext);
@@ -30,7 +30,7 @@ const AIChat = ({ url, token }) => {
       loadFavorites();
     } else {
       setMessages([
-        { role: 'assistant', content: 'Hi! I\'m your AI food assistant. Ask me anything about our menu or get personalized recommendations!' }
+        { role: 'assistant', content: 'Hi! I\'m your AI fur assistant. Ask me anything about our menu or get personalized recommendations!' }
       ]);
     }
   }, [token]);
@@ -58,13 +58,13 @@ const AIChat = ({ url, token }) => {
         setMessages(response.data.messages);
       } else {
         setMessages([
-          { role: 'assistant', content: 'Hi! I\'m your AI food assistant. Ask me anything about our menu or get personalized recommendations!' }
+          { role: 'assistant', content: 'Hi! I\'m your AI fur assistant. Ask me anything about our menu or get personalized recommendations!' }
         ]);
       }
     } catch (error) {
       console.error("Error loading chat history:", error);
       setMessages([
-        { role: 'assistant', content: 'Hi! I\'m your AI food assistant. Ask me anything about our menu or get personalized recommendations!' }
+        { role: 'assistant', content: 'Hi! I\'m your AI fur assistant. Ask me anything about our menu or get personalized recommendations!' }
       ]);
     }
   };
@@ -151,8 +151,8 @@ const AIChat = ({ url, token }) => {
         
         saveChatMessage('assistant', response.data.response);
         
-        if (response.data.recommendedFoods && response.data.recommendedFoods.length > 0) {
-          setRecommendedFoods(response.data.recommendedFoods);
+        if (response.data.recommendedFurs && response.data.recommendedFurs.length > 0) {
+          setRecommendedFurs(response.data.recommendedFurs);
         }
       } else {
         const errorMessage = { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' };
@@ -172,7 +172,7 @@ const AIChat = ({ url, token }) => {
     toast.success('Added to cart!');
   };
 
-  const handleAddToFavorite = async (food) => {
+  const handleAddToFavorite = async (fur) => {
     if (!token) {
       toast.error("Please login to add favorites");
       return;

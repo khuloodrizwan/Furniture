@@ -28,10 +28,10 @@ const Favorites = () => {
       if (response.data.success) {
         // Match favorites with fur_list to get full details
         const favoritesWithDetails = response.data.favorites.map(fav => {
-          const foodDetails = fur_list.find(food => food._id === fav.foodId);
+          const furDetails = fur_list.find(fur => fur._id === fav.furId);
           return {
             ...fav,
-            foodDetails: foodDetails || null
+            furDetails: furDetails || null
           };
         });
         setFavorites(favoritesWithDetails);
@@ -43,16 +43,16 @@ const Favorites = () => {
     }
   };
 
-  const removeFavorite = async (foodId) => {
+  const removeFavorite = async (furId) => {
     try {
       const response = await axios.post(
         `${url}/api/favorite/remove`,
-        { userId: 'user', foodId },
+        { userId: 'user', furId },
         { headers: { token } }
       );
 
       if (response.data.success) {
-        setFavorites(prev => prev.filter(fav => fav.foodId !== foodId));
+        setFavorites(prev => prev.filter(fav => fav.furId !== furId));
         toast.success("Removed from favorites");
       }
     } catch (error) {
@@ -61,8 +61,8 @@ const Favorites = () => {
     }
   };
 
-  const handleAddToCart = (foodId) => {
-    addToCart(foodId);
+  const handleAddToCart = (furId) => {
+    addToCart(furId);
     toast.success('Added to cart!');
   };
 
@@ -109,30 +109,30 @@ const Favorites = () => {
       <div className="favorites-grid">
         {favorites.map((fav) => (
           <div key={fav._id} className="favorite-card">
-            {fav.foodDetails ? (
+            {fav.furDetails ? (
               <>
                 <div className="favorite-card-image">
                   <img 
-                    src={`${url}/images/${fav.foodDetails.image}`} 
-                    alt={fav.foodName} 
+                    src={`${url}/images/${fav.furDetails.image}`} 
+                    alt={fav.furName} 
                   />
                   <button 
                     className="remove-favorite-btn"
-                    onClick={() => removeFavorite(fav.foodId)}
+                    onClick={() => removeFavorite(fav.furId)}
                   >
                     ❤️
                   </button>
                 </div>
                 <div className="favorite-card-content">
-                  <h3>{fav.foodName}</h3>
-                  <p className="favorite-category">{fav.foodDetails.category}</p>
-                  <p className="favorite-description">{fav.foodDetails.description}</p>
+                  <h3>{fav.furName}</h3>
+                  <p className="favorite-category">{fav.furDetails.category}</p>
+                  <p className="favorite-description">{fav.furDetails.description}</p>
                   <p className="favorite-recommendation">{fav.recommendation}</p>
                   <div className="favorite-card-footer">
-                    <span className="favorite-price">₹{fav.foodDetails.price}</span> 
+                    <span className="favorite-price">₹{fav.furDetails.price}</span> 
                     <button 
                       className="add-to-cart-btn"
-                      onClick={() => handleAddToCart(fav.foodId)}
+                      onClick={() => handleAddToCart(fav.furId)}
                     >
                       Add to Cart
                     </button>
@@ -141,11 +141,11 @@ const Favorites = () => {
               </>
             ) : (
               <div className="favorite-card-content">
-                <h3>{fav.foodName}</h3>
+                <h3>{fav.furName}</h3>
                 <p className="favorite-recommendation">{fav.recommendation}</p>
                 <button 
                   className="remove-favorite-btn-alt"
-                  onClick={() => removeFavorite(fav.foodId)}
+                  onClick={() => removeFavorite(fav.furId)}
                 >
                   Remove
                 </button>

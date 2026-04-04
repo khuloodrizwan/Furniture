@@ -92,7 +92,7 @@ const PlaceOrder = () => {
                     amount: order.amount,
                     currency: order.currency,
                     name: "Your Company Name",
-                    description: "Food Order Payment",
+                    description: "Fur Order Payment",
                     order_id: order.id,
                     handler: async function (response) {
                         try {
