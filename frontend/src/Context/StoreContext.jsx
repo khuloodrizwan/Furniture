@@ -1,12 +1,12 @@
 import { createContext, useEffect, useState } from "react";
-import { food_list, menu_list } from "../assets/assets";
+import { fur_list, menu_list } from "../assets/assets";
 import axios from "axios";
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
 
     const url = "http://localhost:4000"
-    const [food_list, setFoodList] = useState([]);
+    const [fur_list, setFoodList] = useState([]);
     const [cartItems, setCartItems] = useState({});
     const [token, setToken] = useState("")
     const currency = "₹";
@@ -36,7 +36,7 @@ const StoreContextProvider = (props) => {
         for (const item in cartItems) {
             try {
               if (cartItems[item] > 0) {
-                let itemInfo = food_list.find((product) => product._id === item);
+                let itemInfo = fur_list.find((product) => product._id === item);
                 totalAmount += itemInfo.price * cartItems[item];
             }  
             } catch (error) {
@@ -70,7 +70,7 @@ const StoreContextProvider = (props) => {
 
     const contextValue = {
         url,
-        food_list,
+        fur_list,
         menu_list,
         cartItems,
         addToCart,

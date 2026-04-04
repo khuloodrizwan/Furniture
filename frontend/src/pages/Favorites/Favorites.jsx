@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { url, token, addToCart, food_list } = useContext(StoreContext);
+  const { url, token, addToCart, fur_list } = useContext(StoreContext);
 
   useEffect(() => {
     if (token) {
@@ -26,9 +26,9 @@ const Favorites = () => {
       );
 
       if (response.data.success) {
-        // Match favorites with food_list to get full details
+        // Match favorites with fur_list to get full details
         const favoritesWithDetails = response.data.favorites.map(fav => {
-          const foodDetails = food_list.find(food => food._id === fav.foodId);
+          const foodDetails = fur_list.find(food => food._id === fav.foodId);
           return {
             ...fav,
             foodDetails: foodDetails || null
