@@ -4,12 +4,12 @@
     gap: 20px;
 }
 .explore-menu h1{
-    color: #446955;
+    color: #004E59;
     font-weight: 500;
 }
 .explore-menu-text{
     max-width: 60%;
-    color: #7A5A52;
+    color: #071E27;
 }
 .explore-menu-list{
     display: flex;
@@ -31,12 +31,12 @@
     transition: 0.2s;
 }
 .explore-menu-list-item .active{
-    border: 4px solid #446955;
+    border: 4px solid #004E59;
     padding: 2px;
 }
 .explore-menu-list-item p{
     margin-top: 10px;
-    color: #7A5A52;
+    color: #071E27;
     font-size: max(1.4vw,16px);
     cursor: pointer;
 }

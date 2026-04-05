@@ -1,5 +1,5 @@
 import basket_icon from './basket_icon.png'
-import main from'./main.jpeg'
+import main from'./main.png'
 import search_icon from './search_icon.png'
 import sofa from './sofa.png'
 import bed from './bed.png'
@@ -17,8 +17,11 @@ import f_5 from './f_5.png'
 import f_6 from './f_6.png'
 import f_7 from './f_7.png'
 import f_8 from './f_8.png'
-
-
+import t_r from './t_r.png'
+import t_l from './t_l.png'
+import b_r from './b_r.png'
+import b_l from './b_l.png'
+import last from './last.png'
 import add_icon_white from './add_icon_white.png'
 import add_icon_green from './add_icon_green.png'
 import remove_icon_red from './remove_icon_red.png'
@@ -38,6 +41,11 @@ import parcel_icon from './parcel_icon.png'
 export const assets = {
     basket_icon,
     main,
+    t_r,
+    t_l,
+    b_r,
+    b_l,
+    last,
     search_icon,
     rating_starts,
     add_icon_green,
@@ -58,35 +66,35 @@ export const assets = {
 
 export const menu_list = [
     {
-        menu_name: "Sofa",
+        menu_name: "Living Room",
         menu_image: sofa
     },
     {
-        menu_name: "Bed",
+        menu_name: "Bedroom",
         menu_image: bed
     },
     {
-        menu_name: "Dinning Table",
+        menu_name: "Kitchen",
         menu_image: dinning_table
     },
     {
-        menu_name: "Chair",
+        menu_name: "Seating",
         menu_image: chair
     },
     {
-        menu_name: "Wardrobe",
+        menu_name: "Storage",
         menu_image: wardrobe
     },
     {
-        menu_name: "Bookshelf",
+        menu_name: "Study Room",
         menu_image: book_shelf
     },
     {
-        menu_name: "Study Desk",
+        menu_name: "Office",
         menu_image: study_desk
     },
     {
-        menu_name: "TV Unit",
+        menu_name: "Appliances",
         menu_image: tv_unit
     }]
 

@@ -114,9 +114,9 @@ const AIChat = ({ url, token }) => {
       
       if (response.data.success) {
         setMessages([
-          { role: 'assistant', content: 'Hi! I\'m your AI food assistant. Ask me anything about our menu or get personalized recommendations!' }
+          { role: 'assistant', content: 'Hi! I\'m your AI fur assistant. Ask me anything about our menu or get personalized recommendations!' }
         ]);
-        setRecommendedFoods([]);
+        setRecommendedFurs([]);
         toast.success("Chat history cleared");
       }
     } catch (error) {

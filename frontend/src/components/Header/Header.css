@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap');
 
 .header {
-    height: 34vw;
-    margin: 30px auto;
+    width: 100%;
+    height: 43vw;      /* taller hero — was 38vw */
+    max-height: 820px;
     position: relative;
-    border-radius: 18px;
+    margin: 0;
     overflow: hidden;
 }
 
@@ -13,20 +14,23 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: fill;
     object-position: center;
     display: block;
+    background-color: #000;
+    clear: auto;
+    
 }
 
-/* Dark overlay so text is readable on any image */
+/* Dark gradient overlay */
 .header::after {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(
         to right,
-        rgba(0, 0, 0, 0.62) 0%,
-        rgba(0, 0, 0, 0.35) 55%,
+        rgba(0, 0, 0, 0.68) 0%,
+        rgba(0, 0, 0, 0.38) 55%,
         rgba(0, 0, 0, 0.05) 100%
     );
     z-index: 1;
@@ -37,114 +41,144 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.4vw;
-    max-width: 48%;
-    bottom: 12%;
-    left: 6vw;
+    gap: 1.2vw;
+    max-width: 50%;
+    bottom: 16%;
+    left: 8%;
     z-index: 2;
     animation: fadeIn 1.2s ease both;
-    pointer-events: none;
 }
 
+/* Small pill tag above heading */
+.header-tag {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: max(0.75vw, 11px);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.82);
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 6px 14px;
+    border-radius: 50px;
+    backdrop-filter: blur(6px);
+}
+
+/* Main heading — bigger */
 .header-contents h2 {
     font-family: 'Playfair Display', serif;
-    font-weight: 600;
+    font-weight: 700;
     color: #ffffff;
-    font-size: max(4.2vw, 24px);
-    line-height: 1.2;
+    font-size: max(4.4vw, 28px);   /* was 4.2vw */
+    line-height: 1.15;
     letter-spacing: -0.02em;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    text-shadow: 0 2px 16px rgba(0,0,0,0.22);
 }
 
-/* Accent underline on heading */
+.highlight {
+    color: #004E59;
+    font-style: italic;
+}
+
+/* Green accent line under heading */
 .header-contents h2::after {
     content: '';
     display: block;
-    width: 56px;
+    width: 64px;
     height: 3px;
-    background: #517d65;
-    margin-top: 0.5vw;
+    background: #004E59;
+    margin-top: 0.6vw;
     border-radius: 2px;
 }
 
+/* Body text — bigger */
 .header-contents p {
     font-family: 'DM Sans', sans-serif;
     color: rgba(255, 255, 255, 0.88);
-    font-size: max(1vw, 13px);
-    line-height: 1.65;
+    font-size: max(1vw, 13px);  /* was 1vw */
+    line-height: 1.7;
     font-weight: 300;
-    max-width: 440px;
+    max-width: 460px;
 }
 
-.header-contents a {
+/* Button row */
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 0.3vw;
+    flex-wrap: wrap;
+}
+
+/* Primary CTA — solid green */
+.header-buttons .btn-primary {
     display: inline-block;
     text-decoration: none;
     font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    font-size: max(1vw, 13px);
-    padding: 0.85vw 2.4vw;
-    background: #517d65;
+    font-weight: 600;
+    font-size: max(1vw, 14px);
+    padding: 1vw 2.8vw;
+    background: #004E59;
     color: #ffffff;
     border-radius: 50px;
     letter-spacing: 0.03em;
     transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
-    box-shadow: 0 4px 18px rgba(81, 125, 101, 0.38);
-    margin-top: 0.4vw;
-    pointer-events: auto;
+    box-shadow: 0 4px 20px rgba(81, 125, 101, 0.42);
 }
 
-.header-contents a:hover {
-    background: #7A5A52;
+.header-buttons .btn-primary:hover {
+    background: red;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(122, 90, 82, 0.38);
+    box-shadow: 0 8px 28px rgba(81, 125, 101, 0.48);
+}
+
+/* Secondary CTA — ghost / outline */
+.header-buttons .btn-secondary {
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: max(1vw, 14px);
+    padding: 1vw 2.8vw;
+    background: rgba(255,255,255,0.12);
+    color: #ffffff;
+    border: 1.5px solid rgba(255,255,255,0.55);
+    border-radius: 50px;
+    letter-spacing: 0.03em;
+    backdrop-filter: blur(6px);
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+
+.header-buttons .btn-secondary:hover {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.85);
+    transform: translateY(-2px);
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(22px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Responsive ── */
 @media (max-width: 1050px) {
-    .header {
-        height: 42vw;
-    }
-    .header-contents {
-        max-width: 52%;
-        gap: 1.8vw;
-    }
+    .header { height: 58vw; }
+    .header-contents { max-width: 56%; gap: 2vw; }
+    .header-contents h2 { font-size: max(4.6vw, 28px); }
 }
 
 @media (max-width: 750px) {
-    .header {
-        height: 56vw;
-        border-radius: 12px;
-    }
-    .header-contents {
-        max-width: 65%;
-        bottom: 8%;
-        gap: 2.5vw;
-    }
-    .header-contents p {
-        display: none;
-    }
-    .header-contents a {
-        padding: 2vw 5vw;
-    }
+    .header { height: 64vw; }
+    .header-contents { max-width: 70%; bottom: 8%; gap: 2.8vw; }
+    .header-contents p { display: none; }
+    .header-buttons .btn-primary,
+    .header-buttons .btn-secondary { padding: 2.4vw 5.5vw; font-size: 13px; }
 }
 
 @media (max-width: 480px) {
-    .header {
-        height: 70vw;
-        margin: 16px auto;
-    }
-    .header-contents {
-        max-width: 80%;
-    }
+    .header { height: 80vw; }
+    .header-contents { max-width: 84%; }
+    .header-tag { display: none; }
+    .header-contents h2 { font-size: max(6vw, 22px); }
 }

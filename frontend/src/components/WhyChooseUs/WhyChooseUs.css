@@ -1,0 +1,131 @@
+.wcu-section {
+    background-color: #ffffff;
+    padding: 80px 8%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+}
+
+/* LEFT */
+.wcu-img-wrapper {
+    position: relative;
+}
+
+.wcu-img-placeholder {
+    width: 80%;
+    aspect-ratio: 4/5;
+    border-radius: 20px;
+    object-fit: cover;
+    display: block;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+.wcu-badge {
+    position: absolute;
+    bottom: -24px;
+    right: -24px;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    max-width: 280px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+}
+
+.wcu-badge-icon {
+    width: 32px;
+    height: 32px;
+    background: #eaf2ee;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #004E59;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.wcu-badge-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+}
+
+.wcu-badge-desc {
+    font-size: 12px;
+    color: #6b6b6b;
+    line-height: 1.5;
+}
+
+/* RIGHT */
+.wcu-tag {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #004E59;
+    margin-bottom: 12px;
+}
+
+.wcu-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(26px, 3vw, 42px);
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.2;
+    margin-bottom: 40px;
+}
+
+.wcu-features {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.wcu-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.wcu-feature-icon {
+    width: 40px;
+    height: 40px;
+    background: #eaf2ee;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.wcu-feature h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+}
+
+.wcu-feature p {
+    font-size: 13.5px;
+    color: #6b6b6b;
+    line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+    .wcu-section {
+        grid-template-columns: 1fr;
+        gap: 80px;
+    }
+    .wcu-badge {
+        bottom: -20px;
+        right: 0;
+    }
+}

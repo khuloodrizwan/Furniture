@@ -1,21 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Header from '../../components/Header/Header'
-import ExploreMenu from '../../components/ExploreMenu/ExploreMenu'
-import FurDisplay from '../../components/FurDisplay/FurDisplay'
-import AppDownload from '../../components/AppDownload/AppDownload'
-import SeasonalBanner from '../../components/SeasonalBanner/SeasonalBanner'
+import CategoryGrid from '../../components/CategoryGrid/CategoryGrid'
+import HowItWorks from '../../components/HowItWorks/HowItWorks'
+import WhyChooseUs from '../../components/WhyChooseUs/WhyChooseUs'
 
-const Home = ({url}) => {
-
-  const [category,setCategory] = useState("All")
-
+const Home = ({ url }) => {
   return (
-    <>
-      <Header/>
-      <ExploreMenu setCategory={setCategory} category={category}/>
-      <FurDisplay category={category}/>
-      <AppDownload/>
-    </>
+    <div>
+      <Header />
+      <CategoryGrid />
+      <HowItWorks />
+      <WhyChooseUs />
+    </div>
   )
 }
 

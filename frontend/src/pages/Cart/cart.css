@@ -19,7 +19,7 @@
 
 .cart-items-item {
     margin: 10px 0px;
-    color: black;
+    color: #071E27;
 }
 
 .cart-items-item img {
@@ -93,7 +93,7 @@
 .cart-promocode-input button{
     width: max(10vw,150px);
     padding: 12px 5px;
-    background-color: black;
+    background-color: #071E27;
     border: none;
     color: white;
     border-radius: 4px;

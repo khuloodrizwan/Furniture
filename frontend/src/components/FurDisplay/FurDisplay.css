@@ -4,6 +4,7 @@
 .fur-display h2{
     font-size: max(2vw,24px);
     font-weight: 600;
+    color:#004E59;
 }
 .fur-display-list{
     display: flex;

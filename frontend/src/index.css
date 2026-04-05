@@ -11,8 +11,8 @@
 
 body {
   min-height: 100vh;
-  background-color: #F3E4DB;
-  color: #446955;
+  background-color: white;
+  color: #004E59;
 }
 
 a {
@@ -21,8 +21,8 @@ a {
 }
 
 .app {
-  width: 80%;
-  margin: auto;
+  width: 100%;
+  margin: 0;
 }
 
 @keyframes fadeIn {
@@ -37,6 +37,6 @@ a {
 
 @media (max-width:1050px) {
   .app {
-    width: 90%;
+    width: 100%;
   }
 }
