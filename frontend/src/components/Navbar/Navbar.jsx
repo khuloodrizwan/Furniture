@@ -20,11 +20,10 @@ const Navbar = ({ setShowLogin }) => {
     <div className='navbar'>
       <Link to='/' className='logo'>RentEase</Link>
       <ul className="navbar-menu">
-        <Link to="/" onClick={() => setMenu("home")} className={menu === "home" ? "active" : ""}>Home</Link>
-        <Link to="/" onClick={() => setMenu("furniture")} className={menu === "furniture" ? "active" : ""}>Furniture</Link>
-        <Link to="/" onClick={() => setMenu("appliance")} className={menu === "appliance" ? "active" : ""}>Appliances</Link>
-        <Link to="/" onClick={() => setMenu("packages")} className={menu === "packages" ? "active" : ""}>Packages</Link>
-        <Link to="/" onClick={() => setMenu("deals")} className={menu === "deals" ? "active" : ""}>Deals</Link>
+        <Link to="/#home" onClick={() => setMenu("home")} className={menu === "home" ? "active" : ""}>Home</Link>
+        <Link to="/furnitures" onClick={() => setMenu("furnitures")} className={menu === "furnitures" ? "active" : ""}>Furniture</Link>
+        <Link to="/appliances" onClick={() => setMenu("appliances")} className={menu === "appliances" ? "active" : ""}>Appliances</Link>
+        <Link to="/deals" onClick={() => setMenu("deals")} className={menu === "deals" ? "active" : ""}>Deals</Link>
         <a href='/#about' onClick={() => setMenu("about")} className={menu === "about" ? "active" : ""}>About Us</a>
         
       </ul>

@@ -11,7 +11,11 @@ import Favorites from './pages/Favorites/Favorites'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Verify from './pages/Verify/Verify'
-import SeasonalBanner from './components/SeasonalBanner/SeasonalBanner'
+import SeasonalBanner from './components/SeasonalBanner/SeasonalBanner';
+import Furnitures from "./pages/Furnitures/Furnitures";
+import Deals from "./pages/Deals/Deals";
+import Appliances from "./pages/Appliances/Appliances";
+
 
 const App = () => {
 
@@ -32,6 +36,9 @@ const App = () => {
           <Route path='/myorders' element={<MyOrders />}/>
           <Route path='/verify' element={<Verify />}/>
           <Route path='/favorites' element={<Favorites />}/>
+          <Route path="/furnitures" element={<Furnitures />} />
+          <Route path="/deals" element={<Deals />} />
+          <Route path="/appliances" element={<Appliances />} />
          
         </Routes>
       </div>
