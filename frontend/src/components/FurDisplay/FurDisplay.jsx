@@ -9,7 +9,7 @@ const FurDisplay = ({category}) => {
 
   return (
     <div className='fur-display' id='fur-display'>
-      <h2>Top Pick Furnitures for you</h2>
+      
       <div className='fur-display-list'>
         {fur_list.map((item,index)=>{
           if (category==="All" || category===item.category) {

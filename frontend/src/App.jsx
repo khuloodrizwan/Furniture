@@ -15,6 +15,7 @@ import SeasonalBanner from './components/SeasonalBanner/SeasonalBanner';
 import Furnitures from "./pages/Furnitures/Furnitures";
 import Deals from "./pages/Deals/Deals";
 import Appliances from "./pages/Appliances/Appliances";
+import FurView from './pages/FurView/FurView';
 
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/furnitures" element={<Furnitures />} />
           <Route path="/deals" element={<Deals />} />
           <Route path="/appliances" element={<Appliances />} />
+          <Route path='/furview/:id' element={<FurView />} />
          
         </Routes>
       </div>

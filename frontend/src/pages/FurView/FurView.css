@@ -1,0 +1,269 @@
+.furview-page {
+    min-height: 100vh;
+    background: #f7f4f0;
+    padding: 30px 5vw 60px;
+    font-family: 'Georgia', serif;
+}
+
+.furview-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    font-size: 1.2rem;
+    color: #888;
+    font-family: sans-serif;
+}
+
+/* Breadcrumb */
+.furview-breadcrumb {
+    font-size: 13px;
+    font-family: sans-serif;
+    color: #888;
+    margin-bottom: 28px;
+}
+
+.furview-breadcrumb span {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.furview-breadcrumb span:hover {
+    color: #004E59;
+}
+
+.furview-breadcrumb span.active {
+    color: #2c1a0e;
+    font-weight: 600;
+    cursor: default;
+}
+
+/* Container */
+.furview-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+}
+
+/* Images */
+.furview-main-img {
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #f0ebe4;
+    aspect-ratio: 4/3;
+}
+
+.furview-main-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.furview-main-img img:hover {
+    transform: scale(1.03);
+}
+
+.furview-thumbnails {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.furview-thumb {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2.5px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    background: #f0ebe4;
+}
+
+.furview-thumb.active {
+    border-color: #004E59;
+}
+
+.furview-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Details */
+.furview-details h1 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: #2c1a0e;
+    margin: 0 0 6px;
+}
+
+.furview-category {
+    font-size: 13px;
+    color: #8b5e3c;
+    font-family: sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 14px;
+}
+
+.furview-description {
+    font-size: 14.5px;
+    color: #6b5a4e;
+    font-family: sans-serif;
+    line-height: 1.7;
+    margin: 0 0 24px;
+}
+
+/* Price Box */
+.furview-price-box {
+    background: #f7f4f0;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+}
+
+.price-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #999;
+    font-family: sans-serif;
+    margin: 0 0 6px;
+}
+
+.price-amount {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #004E59;
+    margin: 0;
+}
+
+.price-amount span {
+    font-size: 14px;
+    color: #999;
+    font-weight: 400;
+    font-family: sans-serif;
+}
+
+/* Month Selector */
+.month-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #999;
+    font-family: sans-serif;
+    margin: 0 0 12px;
+}
+
+.month-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.month-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.month-btn span {
+    font-size: 12px;
+    font-weight: 400;
+    color: #888;
+    margin-top: 3px;
+}
+
+.month-btn.active {
+    border-color: #004E59;
+    background: #004E59;
+    color: #fff;
+}
+
+.month-btn.active span {
+    color: rgba(255,255,255,0.75);
+}
+
+/* Total */
+.furview-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-top: 1px solid #f0ebe4;
+    border-bottom: 1px solid #f0ebe4;
+    margin-bottom: 20px;
+    font-family: sans-serif;
+}
+
+.furview-total span {
+    font-size: 14px;
+    color: #666;
+}
+
+.furview-total strong {
+    font-size: 1.3rem;
+    color: #2c1a0e;
+}
+
+/* Cart Button */
+.furview-cart-btn {
+    width: 100%;
+    padding: 16px;
+    background: #004E59;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: sans-serif;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    margin-bottom: 12px;
+}
+
+.furview-cart-btn:hover {
+    opacity: 0.88;
+    transform: scale(1.01);
+}
+
+.furview-note {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .furview-container {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 24px;
+    }
+
+    .month-btn {
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+}

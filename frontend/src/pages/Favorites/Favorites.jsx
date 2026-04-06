@@ -102,7 +102,6 @@ const Favorites = () => {
   return (
     <div className="favorites-page">
       <div className="favorites-header">
-        <h1>❤️ My Favorites</h1>
         <p>{favorites.length} {favorites.length === 1 ? 'item' : 'items'} saved</p>
       </div>
 
@@ -126,10 +125,10 @@ const Favorites = () => {
                 <div className="favorite-card-content">
                   <h3>{fav.furName}</h3>
                   <p className="favorite-category">{fav.furDetails.category}</p>
-                  <p className="favorite-description">{fav.furDetails.description}</p>
+            
                   <p className="favorite-recommendation">{fav.recommendation}</p>
                   <div className="favorite-card-footer">
-                    <span className="favorite-price">₹{fav.furDetails.price}</span> 
+                    <span className="favorite-price">₹{fav.furDetails.price}<span className="price-mo">/mo</span></span>
                     <button 
                       className="add-to-cart-btn"
                       onClick={() => handleAddToCart(fav.furId)}
