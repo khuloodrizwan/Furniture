@@ -1,42 +1,58 @@
 import { createContext, useEffect, useState } from "react";
-import { menu_list } from "../assets/assets";  // ← NO fur_list here
+import { menu_list } from "../assets/assets";
 import axios from "axios";
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
 
     const url = "http://localhost:4000"
-    const [fur_list, setFurList] = useState([]);  // ← state only, not imported
+    const [fur_list, setFurList] = useState([]);
     const [cartItems, setCartItems] = useState({});
     const [token, setToken] = useState("")
     const currency = "₹";
     const deliveryCharge = 2;
 
-    const addToCart = async (itemId) => {
-        if (!cartItems[itemId]) {
-            setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
-        } else {
-            setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-        }
+    // cartItems shape: { itemId: { quantity: 1, months: 1 } }
+
+    const addToCart = async (itemId, months = 1) => {
+        setCartItems((prev) => ({
+            ...prev,
+            [itemId]: {
+                quantity: 1,
+                months: prev[itemId]?.months || months
+            }
+        }));
         if (token) {
             await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } });
         }
     }
 
     const removeFromCart = async (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: Math.max((prev[itemId] || 1) - 1, 0) }))
+        setCartItems((prev) => {
+            const updated = { ...prev };
+            delete updated[itemId];
+            return updated;
+        });
         if (token) {
             await axios.post(url + "/api/cart/remove", { itemId }, { headers: { token } });
         }
+    }
+
+    const updateCartMonths = (itemId, months) => {
+        setCartItems((prev) => ({
+            ...prev,
+            [itemId]: { ...prev[itemId], months }
+        }));
     }
 
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         for (const item in cartItems) {
             try {
-                if (cartItems[item] > 0) {
+                if (cartItems[item]?.quantity > 0) {
                     let itemInfo = fur_list.find((product) => product._id === item);
-                    totalAmount += itemInfo.price * cartItems[item];
+                    const months = cartItems[item]?.months || 1;
+                    totalAmount += itemInfo.price * months;
                 }
             } catch (error) {}
         }
@@ -50,7 +66,17 @@ const StoreContextProvider = (props) => {
 
     const loadCartData = async (token) => {
         const response = await axios.post(url + "/api/cart/get", {}, { headers: token });
-        setCartItems(response.data.cartData || {});  // ← fallback to {}
+        // convert old format if needed
+        const raw = response.data.cartData || {};
+        const converted = {};
+        for (const key in raw) {
+            if (typeof raw[key] === 'number') {
+                converted[key] = { quantity: 1, months: raw[key] };
+            } else {
+                converted[key] = raw[key];
+            }
+        }
+        setCartItems(converted);
     }
 
     useEffect(() => {
@@ -65,19 +91,10 @@ const StoreContextProvider = (props) => {
     }, [])
 
     const contextValue = {
-        url,
-        fur_list,
-        menu_list,
-        cartItems,
-        addToCart,
-        removeFromCart,
-        getTotalCartAmount,
-        token,
-        setToken,
-        loadCartData,
-        setCartItems,
-        currency,
-        deliveryCharge
+        url, fur_list, menu_list, cartItems, addToCart,
+        removeFromCart, getTotalCartAmount, token, setToken,
+        loadCartData, setCartItems, currency, deliveryCharge,
+        updateCartMonths
     };
 
     return (

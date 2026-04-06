@@ -1,167 +1,203 @@
-.place-order{
-    display: flex;
+.place-order {
+    min-height: 100vh;
+    background: #f7f4f0;
+    padding: 40px 5vw 60px;
+    font-family: 'Georgia', serif;
+}
+
+.place-order-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.place-order-form {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 30px;
     align-items: start;
-    justify-content: space-between;
-    gap: 50px;
-    margin: 100px 0px;
 }
-.place-order-left{
-    width: 100%;
-    max-width: max(30%,500px);
+
+.section-heading {
+    font-size: 1.3rem;
+    color: #2c1a0e;
+    margin: 0 0 24px;
+    font-weight: 700;
 }
-.place-order-left .title{
-    font-size: 30px;
-    font-weight: 600;
-    margin-bottom: 50px;
-}
-.place-order-left input{
-    margin-bottom: 15px;
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #C5C5C5;
-    border-radius: 4px;
-    outline-color: tomato;
-}
-.place-order-left .multi-field{
-    display: flex;
-    gap: 10px;
-}
-.place-order-right{
-    width: 100%;
-    max-width: max(40%,500px);
-}
-.place-order-submit{
-    margin-top: 50px;
-    border: none;
-    background-color: tomato;
-    color: white;
-    padding: 12px 30px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.payment{
+
+/* Left */
+.place-order-left {
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    border: 1px solid #ede8e2;
     display: flex;
     flex-direction: column;
-    align-items: start;
-    gap: 15px;
-}
-.payment h2{
-    margin-top: 30px;
-    margin-bottom: 20px;
-}
-.payment .payment-option{
-    display: flex;
-    align-items: center;
-    gap: 10px ;
-    border: 1px solid tomato;
-    padding: 15px;
-    border-radius: 4px;
-    min-width: 300px;
-    cursor: pointer;
-}
-.payment .payment-option:hover{
-    background-color:  #ffe7de;
+    gap: 14px;
 }
 
-@media (max-width:700px) {
-    .place-order{
-        flex-direction: column;
-    }
-}
-.available-coupons {
-    margin-bottom: 20px;
-    background-color: #fff8f6;
-    border: 1px dashed tomato;
-    border-radius: 8px;
-    padding: 12px 15px;
-}
-
-.coupons-label {
-    font-weight: 600;
-    color: tomato;
+.place-order-left input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #e0d5cc;
+    border-radius: 10px;
     font-size: 14px;
-    margin-bottom: 10px;
+    font-family: sans-serif;
+    color: #2c1a0e;
+    background: #faf8f5;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
 }
 
-.coupons-strip {
+.place-order-left input:focus {
+    border-color: #004E59;
+}
+
+.multi-field {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+/* Right */
+.place-order-right {
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    border: 1px solid #ede8e2;
+    position: sticky;
+    top: 20px;
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 8px;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.coupon-chip {
+/* Order Items */
+.order-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.order-item-row {
     display: flex;
     align-items: center;
-    gap: 6px;
-    background-color: white;
-    border: 1px solid tomato;
-    border-radius: 20px;
-    padding: 5px 12px;
-    cursor: pointer;
-    transition: all 0.2s;
+    gap: 14px;
 }
 
-.coupon-chip:hover {
-    background-color: #ffe7de;
+.order-item-row img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #f0ebe4;
+    flex-shrink: 0;
 }
 
-.chip-active {
-    background-color: tomato !important;
+.order-item-info {
+    flex: 1;
 }
 
-.chip-active .chip-code,
-.chip-active .chip-discount,
-.chip-active .chip-check {
-    color: white !important;
+.order-item-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c1a0e;
+    margin: 0 0 3px;
+    font-family: sans-serif;
 }
 
-.chip-code {
-    font-weight: 700;
-    color: tomato;
-    font-size: 13px;
-    letter-spacing: 1px;
-}
-
-.chip-discount {
+.order-item-duration {
     font-size: 12px;
+    color: #8b5e3c;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+.order-item-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: #004E59;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+/* Totals */
+.order-totals {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 4px;
+}
+
+.order-total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-family: sans-serif;
     color: #555;
 }
 
-.chip-check {
-    font-size: 13px;
-    color: white;
-    font-weight: 700;
-}
-
-.coupon {
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-
-.coupon h2 {
-    margin-bottom: 10px;
-    font-size: 18px;
-}
-
-.coupon-input {
-    display: flex;
-    gap: 10px;
-}
-
-.coupon-input input {
-    padding: 10px;
-    border: 1px solid #C5C5C5;
-    border-radius: 4px;
-    outline-color: tomato;
-    width: 100%;
-}
-
-.coupon-input button {
-    padding: 10px 20px;
-    background-color: tomato;
-    color: white;
+.order-totals hr {
     border: none;
-    border-radius: 4px;
+    border-top: 1px solid #f0ebe4;
+    margin: 4px 0;
+}
+
+.order-total-row.grand {
+    font-size: 16px;
+    color: #2c1a0e;
+}
+
+/* Payment Info */
+.payment-info p {
+    font-size: 13px;
+    font-family: sans-serif;
+    color: #555;
+    margin: 0;
+    text-align: center;
+}
+
+.payment-sub {
+    font-size: 11.5px !important;
+    color: #999 !important;
+    margin-top: 4px !important;
+    font-style: italic;
+}
+
+/* Pay Button */
+.pay-btn {
+    width: 100%;
+    padding: 16px;
+    background: #004E59;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: sans-serif;
     cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.pay-btn:hover {
+    opacity: 0.88;
+    transform: scale(1.01);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .place-order-form {
+        grid-template-columns: 1fr;
+    }
+    .place-order-right {
+        position: static;
+    }
+}
+
+@media (max-width: 560px) {
+    .multi-field {
+        grid-template-columns: 1fr;
+    }
 }
