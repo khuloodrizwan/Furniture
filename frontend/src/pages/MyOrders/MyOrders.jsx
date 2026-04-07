@@ -9,31 +9,31 @@ const MyOrders = () => {
   const [expanded, setExpanded] = useState({});
   const { url, token } = useContext(StoreContext);
 
- const fetchOrders = async () => {
+  const fetchOrders = async () => {
     const response = await axios.post(url + "/api/order/userorders", {}, { headers: { token } });
-    console.log("INSTALLMENTS:", JSON.stringify(response.data.data[0].installments));
     setData(response.data.data);
-}
+  };
+
   useEffect(() => {
     if (token) fetchOrders();
   }, [token]);
 
   const toggleExpand = (orderId) => {
     setExpanded(prev => ({ ...prev, [orderId]: !prev[orderId] }));
-  }
+  };
 
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString('en-IN', {
       day: 'numeric', month: 'short', year: 'numeric'
     });
-  }
+  };
 
   const getStatusColor = (status) => {
     if (status.includes('Delivered')) return 'status-delivered';
     if (status.includes('Out')) return 'status-out';
     if (status.includes('Processing')) return 'status-processing';
     return 'status-default';
-  }
+  };
 
   // Core Razorpay launcher for installment payments
   const launchRazorpay = async (orderId, itemId, installmentNos) => {
@@ -43,7 +43,7 @@ const MyOrders = () => {
       }, { headers: { token } });
 
       if (!response.data.success) {
-        toast.error("Could not initiate payment");
+        toast.error(response.data.message || "Could not initiate payment");
         return;
       }
 
@@ -86,15 +86,15 @@ const MyOrders = () => {
     } catch (err) {
       toast.error("Payment error");
     }
-  }
+  };
 
   const handlePaySingle = (orderId, itemId, installmentNo) => {
     launchRazorpay(orderId, itemId, [installmentNo]);
-  }
+  };
 
   const handlePayAll = (orderId, itemId, unpaidNos) => {
     launchRazorpay(orderId, itemId, unpaidNos);
-  }
+  };
 
   return (
     <div className='my-orders'>
@@ -218,7 +218,7 @@ const MyOrders = () => {
                               ))}
                             </div>
 
-                            {/* Pay All Remaining button */}
+                            {/* Pay All Remaining button — only when 2+ unpaid */}
                             {unpaidSchedule.length > 1 && (
                               <button
                                 className='pay-all-btn'
@@ -244,7 +244,7 @@ const MyOrders = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 export default MyOrders;

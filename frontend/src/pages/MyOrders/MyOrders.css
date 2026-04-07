@@ -249,7 +249,7 @@
 .sch-no {
   font-weight: 700;
   color: #004E59;
-  min-width: 28px;
+  min-width: 58px;
 }
 
 .sch-date {
@@ -299,6 +299,7 @@
   background: #004E59;
   color: #fff;
 }
+
 /* Installment Summary Badges */
 .schedule-item-header {
   display: flex;
@@ -386,6 +387,7 @@
 .pay-all-btn:hover {
   background: #003540;
 }
+
 /* Responsive */
 @media (max-width: 600px) {
   .order-card-top {

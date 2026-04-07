@@ -10,7 +10,6 @@ const razorpay = new Razorpay({
 });
 
 const currency = "INR";
-const deliveryCharge = 20;
 
 // Generate installment schedule for all items
 const generateInstallments = (items) => {
@@ -27,7 +26,7 @@ const generateInstallments = (items) => {
                 no: i + 1,
                 date: date.toISOString(),
                 amount: item.price,
-                paid: i === 0, // first one paid now
+                paid: i === 0, // first installment paid at checkout
             });
         }
         scheduleMap[item._id] = {
@@ -39,9 +38,9 @@ const generateInstallments = (items) => {
     });
 
     return scheduleMap;
-}
+};
 
-// Placing User Order for Frontend using Razorpay
+// Placing User Order using Razorpay
 const placeOrder = async (req, res) => {
     try {
         const installments = generateInstallments(req.body.items);
@@ -52,14 +51,14 @@ const placeOrder = async (req, res) => {
             amount: req.body.amount,
             address: req.body.address,
             installments,
-        })
+        });
         await newOrder.save();
 
         if (req.body.couponCode) {
             await couponModel.findOneAndUpdate(
                 { code: req.body.couponCode },
                 { $push: { usedBy: req.body.userId } }
-            )
+            );
         }
 
         await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
@@ -81,11 +80,11 @@ const placeOrder = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.json({ success: false, message: "Error" })
+        res.json({ success: false, message: "Error" });
     }
-}
+};
 
-// Placing User Order for Frontend using COD
+// Placing User Order using COD
 const placeOrderCod = async (req, res) => {
     try {
         const installments = generateInstallments(req.body.items);
@@ -97,14 +96,14 @@ const placeOrderCod = async (req, res) => {
             address: req.body.address,
             payment: true,
             installments,
-        })
+        });
         await newOrder.save();
 
         if (req.body.couponCode) {
             await couponModel.findOneAndUpdate(
                 { code: req.body.couponCode },
                 { $push: { usedBy: req.body.userId } }
-            )
+            );
         }
 
         await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
@@ -112,11 +111,11 @@ const placeOrderCod = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.json({ success: false, message: "Error" })
+        res.json({ success: false, message: "Error" });
     }
-}
+};
 
-// Listing Order for Admin panel
+// List all Orders (Admin)
 const listOrders = async (req, res) => {
     try {
         const orders = await orderModel.find({});
@@ -126,34 +125,31 @@ const listOrders = async (req, res) => {
         console.log(error);
         res.json({ success: false, message: "Error" });
     }
-}
+};
 
 // User Orders for Frontend
 const userOrders = async (req, res) => {
     try {
         const orders = await orderModel.find({ userId: req.body.userId });
-
-        const serialized = orders.map(order => {
-            const obj = order.toObject();
-            // No Map conversion needed anymore
-            return obj;
-        });
-
+        const serialized = orders.map(order => order.toObject());
         res.json({ success: true, data: serialized });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: "Error" });
     }
-}
+};
+
+// Update order status (Admin)
 const updateStatus = async (req, res) => {
     try {
         await orderModel.findByIdAndUpdate(req.body.orderId, { status: req.body.status });
-        res.json({ success: true, message: "Status Updated" })
+        res.json({ success: true, message: "Status Updated" });
     } catch (error) {
-        res.json({ success: false, message: "Error" })
+        res.json({ success: false, message: "Error" });
     }
-}
+};
 
+// Verify initial checkout payment
 const verifyOrder = async (req, res) => {
     const { orderId, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
     try {
@@ -165,34 +161,46 @@ const verifyOrder = async (req, res) => {
 
         if (razorpay_signature === expectedSign) {
             await orderModel.findByIdAndUpdate(orderId, { payment: true });
-            res.json({ success: true, message: "Paid" })
+            res.json({ success: true, message: "Paid" });
         } else {
-            await orderModel.findByIdAndDelete(orderId)
-            res.json({ success: false, message: "Not Paid" })
+            await orderModel.findByIdAndDelete(orderId);
+            res.json({ success: false, message: "Not Paid" });
         }
     } catch (error) {
         console.log(error);
-        res.json({ success: false, message: "Not Verified" })
+        res.json({ success: false, message: "Not Verified" });
     }
-}
-// Pay a single installment OR multiple (pay all remaining)
+};
+
+// Create Razorpay order for installment(s) — single or pay-all
 const payInstallment = async (req, res) => {
     try {
         const { orderId, itemId, installmentNos } = req.body;
-        // installmentNos is an array like [2] or [2,3] for pay-all
 
         const order = await orderModel.findById(orderId);
         if (!order) return res.json({ success: false, message: "Order not found" });
 
         const installmentData = order.installments[itemId];
-        if (!installmentData) return res.json({ success: false, message: "Item not found" });
+        if (!installmentData) return res.json({ success: false, message: "Item installment data not found" });
 
-        const totalAmount = installmentData.pricePerMonth * installmentNos.length;
+        const nos = installmentNos.map(Number);
+
+        // Validate installments exist and are unpaid
+        const targetInstallments = installmentData.schedule.filter(s => nos.includes(Number(s.no)));
+        if (targetInstallments.length !== nos.length) {
+            return res.json({ success: false, message: "Some installments not found" });
+        }
+        const alreadyPaid = targetInstallments.filter(s => s.paid);
+        if (alreadyPaid.length > 0) {
+            return res.json({ success: false, message: "Some installments are already paid" });
+        }
+
+        const totalAmount = installmentData.pricePerMonth * nos.length;
 
         const options = {
             amount: totalAmount * 100,
             currency: "INR",
-            receipt: `inst_${orderId}_${itemId}_${installmentNos.join("_")}`,
+            receipt: `inst_${orderId.slice(-6)}_${itemId.slice(-6)}_${nos.join("_")}`,
         };
 
         const razorpayOrder = await razorpay.orders.create(options);
@@ -201,7 +209,7 @@ const payInstallment = async (req, res) => {
             success: true,
             order: razorpayOrder,
             key_id: process.env.RAZORPAY_KEY_ID,
-            meta: { orderId, itemId, installmentNos }
+            meta: { orderId, itemId, installmentNos: nos }
         });
 
     } catch (error) {
@@ -210,7 +218,7 @@ const payInstallment = async (req, res) => {
     }
 };
 
-// Verify installment payment and mark those installment nos as paid
+// Verify installment payment signature and mark installments paid in DB
 const verifyInstallment = async (req, res) => {
     const {
         orderId, itemId, installmentNos,
@@ -218,6 +226,7 @@ const verifyInstallment = async (req, res) => {
     } = req.body;
 
     try {
+        // Step 1: Verify Razorpay signature
         const sign = razorpay_order_id + "|" + razorpay_payment_id;
         const expectedSign = crypto
             .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
@@ -228,17 +237,26 @@ const verifyInstallment = async (req, res) => {
             return res.json({ success: false, message: "Payment verification failed" });
         }
 
-      const installmentData = order.installments[itemId];
+        // Step 2: BUG FIX — fetch order (was missing in original, caused ReferenceError crash)
+        const order = await orderModel.findById(orderId);
+        if (!order) return res.json({ success: false, message: "Order not found" });
 
-installmentData.schedule = installmentData.schedule.map(s => {
-    if (installmentNos.includes(s.no)) {
-        return { no: s.no, date: s.date, amount: s.amount, paid: true };
-    }
-    return s;
-});
+        const installmentData = order.installments[itemId];
+        if (!installmentData) return res.json({ success: false, message: "Item not found in installments" });
 
-       order.installments[itemId] = installmentData;
-order.markModified("installments");
+        // Step 3: BUG FIX — cast to Number on both sides to avoid type mismatch
+        const nos = installmentNos.map(Number);
+
+        installmentData.schedule = installmentData.schedule.map(s => {
+            if (nos.includes(Number(s.no))) {
+                return { no: s.no, date: s.date, amount: s.amount, paid: true };
+            }
+            return s;
+        });
+
+        // Step 4: Write back — markModified required for nested Object type in Mongoose
+        order.installments[itemId] = installmentData;
+        order.markModified("installments");
         await order.save();
 
         res.json({ success: true, message: "Installment paid successfully" });
@@ -249,4 +267,13 @@ order.markModified("installments");
     }
 };
 
-export { placeOrder, listOrders, userOrders, updateStatus, verifyOrder, placeOrderCod, payInstallment, verifyInstallment };
+export {
+    placeOrder,
+    listOrders,
+    userOrders,
+    updateStatus,
+    verifyOrder,
+    placeOrderCod,
+    payInstallment,
+    verifyInstallment
+};
