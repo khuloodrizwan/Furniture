@@ -303,6 +303,22 @@
 
 .cart-checkout-btn:hover { opacity: 0.88; }
 
+.inst-current {
+  border: 1.5px solid #004E59;
+  background: #eef6f5;
+}
+
+.inst-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: #004E59;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-family: sans-serif;
+  letter-spacing: 0.3px;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .cart-content {

@@ -1,16 +1,16 @@
-    .fur-display{
-    margin-top: 30px;
+.fur-display {
+    padding: 10px 0 40px;
 }
-.fur-display h2{
-    font-size: max(2vw,24px);
-    font-weight: 600;
-    color:#004E59;
+
+.fur-display-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 22px;
 }
-.fur-display-list{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 30px;
-    gap: 30px;
-    row-gap: 50px;
+
+@media (max-width: 600px) {
+    .fur-display-list {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 14px;
+    }
 }

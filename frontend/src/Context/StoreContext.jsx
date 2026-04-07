@@ -52,7 +52,7 @@ const StoreContextProvider = (props) => {
                 if (cartItems[item]?.quantity > 0) {
                     let itemInfo = fur_list.find((product) => product._id === item);
                     const months = cartItems[item]?.months || 1;
-                    totalAmount += itemInfo.price * months;
+                    totalAmount += itemInfo.price;
                 }
             } catch (error) {}
         }

@@ -4,7 +4,6 @@ import couponModel from "../models/couponModel.js"
 import Razorpay from "razorpay";
 import crypto from "crypto";
 
-// Initialize Razorpay
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET
@@ -12,20 +11,50 @@ const razorpay = new Razorpay({
 
 const currency = "INR";
 const deliveryCharge = 20;
-const frontend_URL = 'http://localhost:5173';
+
+// Generate installment schedule for all items
+const generateInstallments = (items) => {
+    const today = new Date();
+    const scheduleMap = {};
+
+    items.forEach(item => {
+        const months = item.months || 1;
+        const schedule = [];
+        for (let i = 0; i < months; i++) {
+            const date = new Date(today);
+            date.setMonth(date.getMonth() + i);
+            schedule.push({
+                no: i + 1,
+                date: date.toISOString(),
+                amount: item.price,
+                paid: i === 0, // first one paid now
+            });
+        }
+        scheduleMap[item._id] = {
+            itemName: item.name,
+            pricePerMonth: item.price,
+            totalMonths: months,
+            schedule
+        };
+    });
+
+    return scheduleMap;
+}
 
 // Placing User Order for Frontend using Razorpay
 const placeOrder = async (req, res) => {
     try {
+        const installments = generateInstallments(req.body.items);
+
         const newOrder = new orderModel({
             userId: req.body.userId,
             items: req.body.items,
             amount: req.body.amount,
             address: req.body.address,
+            installments,
         })
         await newOrder.save();
 
-        // Coupon used mark karo
         if (req.body.couponCode) {
             await couponModel.findOneAndUpdate(
                 { code: req.body.couponCode },
@@ -59,16 +88,18 @@ const placeOrder = async (req, res) => {
 // Placing User Order for Frontend using COD
 const placeOrderCod = async (req, res) => {
     try {
+        const installments = generateInstallments(req.body.items);
+
         const newOrder = new orderModel({
             userId: req.body.userId,
             items: req.body.items,
             amount: req.body.amount,
             address: req.body.address,
             payment: true,
+            installments,
         })
         await newOrder.save();
 
-        // Coupon used mark karo
         if (req.body.couponCode) {
             await couponModel.findOneAndUpdate(
                 { code: req.body.couponCode },
@@ -77,7 +108,6 @@ const placeOrderCod = async (req, res) => {
         }
 
         await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
-
         res.json({ success: true, message: "Order Placed" });
 
     } catch (error) {
@@ -90,10 +120,11 @@ const placeOrderCod = async (req, res) => {
 const listOrders = async (req, res) => {
     try {
         const orders = await orderModel.find({});
-        res.json({ success: true, data: orders })
+        const serialized = orders.map(order => order.toObject());
+        res.json({ success: true, data: serialized });
     } catch (error) {
         console.log(error);
-        res.json({ success: false, message: "Error" })
+        res.json({ success: false, message: "Error" });
     }
 }
 
@@ -101,13 +132,19 @@ const listOrders = async (req, res) => {
 const userOrders = async (req, res) => {
     try {
         const orders = await orderModel.find({ userId: req.body.userId });
-        res.json({ success: true, data: orders })
+
+        const serialized = orders.map(order => {
+            const obj = order.toObject();
+            // No Map conversion needed anymore
+            return obj;
+        });
+
+        res.json({ success: true, data: serialized });
     } catch (error) {
         console.log(error);
-        res.json({ success: false, message: "Error" })
+        res.json({ success: false, message: "Error" });
     }
 }
-
 const updateStatus = async (req, res) => {
     try {
         await orderModel.findByIdAndUpdate(req.body.orderId, { status: req.body.status });
@@ -138,5 +175,78 @@ const verifyOrder = async (req, res) => {
         res.json({ success: false, message: "Not Verified" })
     }
 }
+// Pay a single installment OR multiple (pay all remaining)
+const payInstallment = async (req, res) => {
+    try {
+        const { orderId, itemId, installmentNos } = req.body;
+        // installmentNos is an array like [2] or [2,3] for pay-all
 
-export { placeOrder, listOrders, userOrders, updateStatus, verifyOrder, placeOrderCod }
+        const order = await orderModel.findById(orderId);
+        if (!order) return res.json({ success: false, message: "Order not found" });
+
+        const installmentData = order.installments[itemId];
+        if (!installmentData) return res.json({ success: false, message: "Item not found" });
+
+        const totalAmount = installmentData.pricePerMonth * installmentNos.length;
+
+        const options = {
+            amount: totalAmount * 100,
+            currency: "INR",
+            receipt: `inst_${orderId}_${itemId}_${installmentNos.join("_")}`,
+        };
+
+        const razorpayOrder = await razorpay.orders.create(options);
+
+        res.json({
+            success: true,
+            order: razorpayOrder,
+            key_id: process.env.RAZORPAY_KEY_ID,
+            meta: { orderId, itemId, installmentNos }
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: "Error creating installment payment" });
+    }
+};
+
+// Verify installment payment and mark those installment nos as paid
+const verifyInstallment = async (req, res) => {
+    const {
+        orderId, itemId, installmentNos,
+        razorpay_order_id, razorpay_payment_id, razorpay_signature
+    } = req.body;
+
+    try {
+        const sign = razorpay_order_id + "|" + razorpay_payment_id;
+        const expectedSign = crypto
+            .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+            .update(sign)
+            .digest("hex");
+
+        if (razorpay_signature !== expectedSign) {
+            return res.json({ success: false, message: "Payment verification failed" });
+        }
+
+      const installmentData = order.installments[itemId];
+
+installmentData.schedule = installmentData.schedule.map(s => {
+    if (installmentNos.includes(s.no)) {
+        return { no: s.no, date: s.date, amount: s.amount, paid: true };
+    }
+    return s;
+});
+
+       order.installments[itemId] = installmentData;
+order.markModified("installments");
+        await order.save();
+
+        res.json({ success: true, message: "Installment paid successfully" });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: "Verification error" });
+    }
+};
+
+export { placeOrder, listOrders, userOrders, updateStatus, verifyOrder, placeOrderCod, payInstallment, verifyInstallment };

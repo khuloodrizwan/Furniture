@@ -129,18 +129,18 @@ const PlaceOrder = () => {
 
                         <div className='order-items-list'>
                             {cartFurs.map(item => {
-                                const months = cartItems[item._id]?.months || 1;
-                                return (
-                                    <div key={item._id} className='order-item-row'>
-                                        <img src={url + "/images/" + item.image} alt={item.name} />
-                                        <div className='order-item-info'>
-                                            <p className='order-item-name'>{item.name}</p>
-                                            <p className='order-item-duration'>{months} month{months > 1 ? 's' : ''} rental</p>
-                                        </div>
-                                        <p className='order-item-price'>₹{item.price * months}</p>
-                                    </div>
-                                );
-                            })}
+    const months = cartItems[item._id]?.months || 1;
+    return (
+        <div key={item._id} className='order-item-row'>
+            <img src={url + "/images/" + item.image} alt={item.name} />
+            <div className='order-item-info'>
+                <p className='order-item-name'>{item.name}</p>
+                <p className='order-item-duration'>{months} month{months > 1 ? 's' : ''} rental · 1st installment</p>
+            </div>
+            <p className='order-item-price'>₹{item.price}</p>
+        </div>
+    );
+})}
                         </div>
 
                         <div className='order-totals'>

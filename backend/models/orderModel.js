@@ -8,8 +8,7 @@ const orderSchema = new mongoose.Schema({
     status: { type: String, default: "Fur Processing" },
     date: { type: Date, default: Date.now() },
     payment: { type: Boolean, default: false },
-    installmentMonths: { type: Number, default: 1 },
-    installments: { type: Array, default: [] },
+    installments: { type:Object, default: {} },
 })
 
 const orderModel = mongoose.models.order || mongoose.model("order", orderSchema);
