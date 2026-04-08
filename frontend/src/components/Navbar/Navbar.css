@@ -22,20 +22,17 @@
 }
 
 .navbar .logo:hover {
-    color: #016572 ;
+    color: #016572;
 }
 
 /* MENU */
-
 .navbar-menu {
     display: flex;
     list-style: none;
     gap: 28px;
     font-size: 15px;
-    /* REMOVE position absolute — it's causing the gap */
-    position: static;
-    transform: none;
 }
+
 .navbar-menu a {
     text-decoration: none;
     color: #071E27;
@@ -78,7 +75,6 @@
     display: flex;
     align-items: center;
     gap: 22px;
-    flex-shrink: 0;
 }
 
 .navbar-search-icon {
@@ -104,13 +100,11 @@
     align-items: center;
     cursor: pointer;
 }
+
 .heart-icon {
     font-size: 24px;
     transition: 0.3s;
-    vertical-align: middle;
-    line-height: 0;
-    display: inline-block;
-    transform: translateY(-3px); /* adjust value as needed */
+    transform: translateY(-3px);
 }
 
 .navbar-favorites-icon:hover .heart-icon {
@@ -134,31 +128,31 @@
     color: white;
 }
 
+/* PROFILE */
 .navbar-profile {
     position: relative;
+    cursor: pointer;
 }
 
 .navbar-profile img {
     width: 24px;
-    cursor: pointer;
 }
 
+/* DROPDOWN (NO HOVER) */
 .navbar-profile-dropdown {
     position: absolute;
-    display: none;
     right: 0;
-    top: 42px;
+    top: 38px; /* reduced gap */
     z-index: 1001;
-}
 
-.navbar-profile:hover .navbar-profile-dropdown {
     display: flex;
     flex-direction: column;
     gap: 10px;
+
     background-color: #ffffff;
     padding: 12px 20px;
     border-radius: 8px;
-    border: 1px solid white;
+    border: 1px solid #eee;
     box-shadow: 0 4px 10px rgba(0,0,0,0.06);
     list-style: none;
 }
@@ -186,16 +180,9 @@
     background-color: #eee;
 }
 
-@media (max-width: 1100px) {
-    .navbar-menu { gap: 18px; font-size: 13.5px; }
-}
-
-@media (max-width: 900px) {
-    .navbar-menu { gap: 14px; font-size: 13px; }
-    .navbar-right { gap: 15px; }
-    .navbar-right button { padding: 7px 16px; }
-}
-
+/* RESPONSIVE */
 @media (max-width: 750px) {
-    .navbar-menu { display: none; }
+    .navbar-menu {
+        display: none;
+    }
 }
