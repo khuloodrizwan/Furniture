@@ -1,0 +1,310 @@
+/* ─── Admin Return Requests Page ──────────────────────────────────── */
+
+.return-requests-page {
+  padding: 24px;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+}
+
+/* Header */
+.rr-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.rr-page-header h3 {
+  font-size: 1.4rem;
+  color: #2c1a0e;
+  margin: 0 0 4px;
+}
+
+.rr-subtitle {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+
+.rr-refresh-btn {
+  background: #004E59;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+.rr-refresh-btn:hover:not(:disabled) { background: #003540; }
+.rr-refresh-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Empty State */
+.rr-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #aaa;
+}
+.rr-empty-icon { font-size: 48px; margin-bottom: 12px; }
+.rr-empty h4 { font-size: 16px; color: #555; margin: 0 0 6px; }
+.rr-empty p { font-size: 13px; }
+
+/* List */
+.rr-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Card */
+.rr-card {
+  background: #fff;
+  border: 1px solid #ede8e2;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(44,26,14,0.06);
+}
+
+/* Card Header */
+.rr-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 22px;
+  border-bottom: 1px solid #f0ebe4;
+  background: #fdf9f5;
+}
+
+.rr-order-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rr-order-id {
+  font-size: 14px;
+  font-weight: 800;
+  color: #2c1a0e;
+  font-family: 'Courier New', monospace;
+}
+
+.rr-order-date {
+  font-size: 12px;
+  color: #888;
+}
+
+/* Status Badge */
+.rr-status-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 20px;
+}
+
+.rs-requested {
+  background: #fff8ec;
+  color: #c8860a;
+  border: 1px solid #ffe4b2;
+}
+.rs-approved {
+  background: #eefaf3;
+  color: #16a34a;
+  border: 1px solid #c3e8d4;
+}
+.rs-rejected {
+  background: #fff0f0;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+/* Card Body */
+.rr-card-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0;
+  padding: 0;
+}
+
+.rr-section {
+  padding: 18px 22px;
+  border-right: 1px solid #f0ebe4;
+}
+.rr-section:last-child { border-right: none; }
+
+.rr-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #aaa;
+  margin: 0 0 10px;
+}
+
+/* User Info */
+.rr-user-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2c1a0e;
+  margin: 0 0 3px;
+}
+.rr-user-email {
+  font-size: 12px;
+  color: #888;
+  margin: 0 0 4px;
+}
+.rr-user-address {
+  font-size: 11px;
+  color: #aaa;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Items */
+.rr-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.rr-item-row:last-child { margin-bottom: 0; }
+
+.rr-item-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2c1a0e;
+}
+.rr-item-meta {
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* Payment Summary */
+.rr-payment-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rr-payment-cell {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rr-cell-label {
+  font-size: 12px;
+  color: #888;
+}
+.rr-cell-value {
+  font-size: 14px;
+  font-weight: 800;
+}
+.rr-cell-value.green { color: #16a34a; }
+.rr-cell-value.orange { color: #c8860a; }
+.rr-cell-value.blue { color: #2563eb; }
+
+.rr-pickup-info {
+  font-size: 11px;
+  color: #666;
+  margin-top: 10px;
+  background: #f5f0ea;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+/* Reason */
+.rr-reason-text {
+  font-size: 13px;
+  color: #444;
+  line-height: 1.6;
+  font-style: italic;
+  margin: 0;
+  background: #fdf9f5;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 3px solid #d4c9be;
+}
+
+/* Actions */
+.rr-actions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 22px;
+  border-top: 1px solid #f0ebe4;
+  background: #fdf9f5;
+}
+
+.rr-btn {
+  flex: 1;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  font-family: inherit;
+}
+.rr-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.rr-btn:not(:disabled):active { transform: scale(0.98); }
+
+.rr-approve-btn {
+  background: #16a34a;
+  color: #fff;
+}
+.rr-approve-btn:hover:not(:disabled) { background: #15803d; }
+
+.rr-reject-btn {
+  background: #fff;
+  color: #dc2626;
+  border: 1.5px solid #dc2626;
+}
+.rr-reject-btn:hover:not(:disabled) {
+  background: #dc2626;
+  color: #fff;
+}
+
+/* Resolved Banner */
+.rr-resolved {
+  padding: 14px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  border-top: 1px solid #f0ebe4;
+}
+.approved-resolved {
+  background: #eefaf3;
+  color: #16a34a;
+}
+.rejected-resolved {
+  background: #fff0f0;
+  color: #dc2626;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .rr-card-body {
+    grid-template-columns: 1fr 1fr;
+  }
+  .rr-section:nth-child(2) { border-right: none; }
+  .rr-section:nth-child(3) { border-top: 1px solid #f0ebe4; }
+  .rr-section:nth-child(4) {
+    border-top: 1px solid #f0ebe4;
+    border-right: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .rr-card-body {
+    grid-template-columns: 1fr;
+  }
+  .rr-section {
+    border-right: none;
+    border-top: 1px solid #f0ebe4;
+  }
+  .rr-section:first-child { border-top: none; }
+  .rr-actions { flex-direction: column; }
+}

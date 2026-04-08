@@ -16,6 +16,8 @@ import Furnitures from "./pages/Furnitures/Furnitures";
 import Deals from "./pages/Deals/Deals";
 import Appliances from "./pages/Appliances/Appliances";
 import FurView from './pages/FurView/FurView';
+import ReturnForm from './pages/ReturnForm/ReturnForm';
+
 
 
 const App = () => {
@@ -41,6 +43,7 @@ const App = () => {
           <Route path="/deals" element={<Deals />} />
           <Route path="/appliances" element={<Appliances />} />
           <Route path='/furview/:id' element={<FurView />} />
+          <Route path="/returnform" element={<ReturnForm />} />
          
         </Routes>
       </div>

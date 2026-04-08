@@ -3,11 +3,13 @@ import './MyOrders.css'
 import axios from 'axios'
 import { StoreContext } from '../../Context/StoreContext'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom';
 
 const MyOrders = () => {
   const [data, setData] = useState([]);
   const [expanded, setExpanded] = useState({});
   const { url, token } = useContext(StoreContext);
+  const navigate = useNavigate();
 
   const fetchOrders = async () => {
     const response = await axios.post(url + "/api/order/userorders", {}, { headers: { token } });
@@ -33,6 +35,21 @@ const MyOrders = () => {
     if (status.includes('Out')) return 'status-out';
     if (status.includes('Processing')) return 'status-processing';
     return 'status-default';
+  };
+
+  // Return status badge styling
+  const getReturnStatusClass = (status) => {
+    if (status === 'Approved') return 'return-status-approved';
+    if (status === 'Rejected') return 'return-status-rejected';
+    if (status === 'Requested') return 'return-status-requested';
+    return '';
+  };
+
+  const getReturnStatusLabel = (status) => {
+    if (status === 'Approved') return '✅ Return Approved';
+    if (status === 'Rejected') return '❌ Return Rejected';
+    if (status === 'Requested') return '⏳ Return Requested';
+    return '';
   };
 
   // Core Razorpay launcher for installment payments
@@ -69,7 +86,7 @@ const MyOrders = () => {
 
             if (verifyRes.data.success) {
               toast.success("Installment paid successfully!");
-              fetchOrders(); // refresh UI
+              fetchOrders();
             } else {
               toast.error("Payment verification failed");
             }
@@ -111,136 +128,166 @@ const MyOrders = () => {
         </div>
       ) : (
         <div className='orders-list'>
-          {data.map((order, index) => (
-            <div key={index} className='order-card'>
+          {data.map((order, index) => {
+            const returnReq = order.returnRequest;
+            const hasReturnRequest = returnReq && returnReq.requested;
+            const returnStatus = returnReq?.status || "None";
 
-              {/* Top */}
-              <div className='order-card-top'>
-                <div className='order-meta'>
-                  <p className='order-id'>Order #{order._id.slice(-8).toUpperCase()}</p>
-                  <p className='order-date'>{formatDate(order.date)}</p>
-                </div>
-                <div className={`order-status ${getStatusColor(order.status)}`}>
-                  <span className='status-dot' />
-                  {order.status}
-                </div>
-              </div>
+            return (
+              <div key={index} className='order-card'>
 
-              <hr className='order-divider' />
-
-              {/* Items */}
-              <div className='order-items'>
-                {order.items.map((item, i) => (
-                  <div key={i} className='order-item-row'>
-                    <div className='order-item-info'>
-                      <p className='order-item-name'>{item.name}</p>
-                      <p className='order-item-meta'>
-                        {item.months || 1} month{(item.months || 1) > 1 ? 's' : ''} rental · ₹{item.price}/mo
-                      </p>
-                    </div>
-                    <p className='order-item-total'>₹{item.price}</p>
+                {/* Top */}
+                <div className='order-card-top'>
+                  <div className='order-meta'>
+                    <p className='order-id'>Order #{order._id.slice(-8).toUpperCase()}</p>
+                    <p className='order-date'>{formatDate(order.date)}</p>
                   </div>
-                ))}
-              </div>
-
-              {/* Amount Row */}
-              <div className='order-amount-row'>
-                <div className='order-amount-info'>
-                  <span className='amount-label'>1st Installment Paid</span>
-                  <span className='amount-value'>₹{order.amount}</span>
+                  <div className={`order-status ${getStatusColor(order.status)}`}>
+                    <span className='status-dot' />
+                    {order.status}
+                  </div>
                 </div>
-                <div className='order-payment-badge'>
-                  {order.payment
-                    ? <span className='badge-paid'>✓ Paid</span>
-                    : <span className='badge-pending'>⏳ Pending</span>
-                  }
-                </div>
-              </div>
 
-              {/* Installment Section per item */}
-              {order.installments && Object.keys(order.installments).length > 0 && (
-                <div className='order-installments'>
-                  <button
-                    className='toggle-schedule-btn'
-                    onClick={() => toggleExpand(order._id)}
-                  >
-                    {expanded[order._id] ? '▲' : '▶'} View Payment Schedule
+                {/* Return Status Badge — shown below delivery status if request exists */}
+                {hasReturnRequest && returnStatus !== "None" && (
+                  <div className={`return-status-badge ${getReturnStatusClass(returnStatus)}`}>
+                    <span className='return-status-dot' />
+                    {getReturnStatusLabel(returnStatus)}
+                    {returnStatus === 'Approved' && returnReq.refundAmount > 0 && (
+                      <span className='refund-amount-tag'> · Refund: ₹{returnReq.refundAmount}</span>
+                    )}
+                    {returnReq.pickupSchedule && returnStatus !== 'Rejected' && (
+                      <span className='pickup-schedule-tag'> · Pickup: {returnReq.pickupSchedule}</span>
+                    )}
+                  </div>
+                )}
+
+                <hr className='order-divider' />
+
+                {/* Items */}
+                <div className='order-items'>
+                  {order.items.map((item, i) => (
+                    <div key={i} className='order-item-row'>
+                      <div className='order-item-info'>
+                        <p className='order-item-name'>{item.name}</p>
+                        <p className='order-item-meta'>
+                          {item.months || 1} month{(item.months || 1) > 1 ? 's' : ''} rental · ₹{item.price}/mo
+                        </p>
+                      </div>
+                      <p className='order-item-total'>₹{item.price}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Amount Row */}
+                <div className='order-amount-row'>
+                  <div className='order-amount-info'>
+                    <span className='amount-label'>1st Installment Paid</span>
+                    <span className='amount-value'>₹{order.amount}</span>
+                  </div>
+                  <div className='order-payment-badge'>
+                    {order.payment
+                      ? <span className='badge-paid'>✓ Paid</span>
+                      : <span className='badge-pending'>⏳ Pending</span>
+                    }
+                  </div>
+                </div>
+
+                {/* Installment Section per item */}
+                {order.installments && Object.keys(order.installments).length > 0 && (
+                  <div className='order-installments'>
+                    <button
+                      className='toggle-schedule-btn'
+                      onClick={() => toggleExpand(order._id)}
+                    >
+                      {expanded[order._id] ? '▲' : '▶'} View Payment Schedule
+                    </button>
+
+                    {expanded[order._id] && (
+                      <div className='schedule-list'>
+                        {Object.entries(order.installments).map(([itemId, inst]) => {
+                          const paidCount = inst.schedule.filter(s => s.paid).length;
+                          const unpaidSchedule = inst.schedule.filter(s => !s.paid);
+                          const unpaidNos = unpaidSchedule.map(s => s.no);
+                          const totalAmount = unpaidSchedule.length * inst.pricePerMonth;
+
+                          return (
+                            <div key={itemId} className='schedule-item'>
+
+                              <div className='schedule-item-header'>
+                                <p className='schedule-item-name'>{inst.itemName}</p>
+                                <div className='installment-summary'>
+                                  <span className='inst-summary-badge paid-badge'>
+                                    ✓ {paidCount} Paid
+                                  </span>
+                                  <span className='inst-summary-badge pending-badge'>
+                                    ⏳ {unpaidSchedule.length} Pending
+                                  </span>
+                                  <span className='inst-summary-badge total-badge'>
+                                    {inst.totalMonths} Total
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className='schedule-rows'>
+                                {inst.schedule.map((s, j) => (
+                                  <div key={j} className={`schedule-row ${s.paid ? 'paid' : 'unpaid'}`}>
+                                    <span className='sch-no'>Month {s.no}</span>
+                                    <span className='sch-date'>{formatDate(s.date)}</span>
+                                    <span className='sch-amount'>₹{s.amount}</span>
+                                    {s.paid ? (
+                                      <span className='sch-status sch-paid'>✓ Paid</span>
+                                    ) : (
+                                      <div className='sch-actions'>
+                                        <span className='sch-status sch-upcoming'>Pending</span>
+                                        <button
+                                          className='pay-now-btn'
+                                          onClick={() => handlePaySingle(order._id, itemId, s.no)}
+                                        >
+                                          Pay Now
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+
+                              {unpaidSchedule.length > 1 && (
+                                <button
+                                  className='pay-all-btn'
+                                  onClick={() => handlePayAll(order._id, itemId, unpaidNos)}
+                                >
+                                  Pay All Remaining · ₹{totalAmount}
+                                </button>
+                              )}
+
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className='order-actions-row'>
+                  <button className='track-btn' onClick={fetchOrders}>
+                    Refresh Status
                   </button>
 
-                  {expanded[order._id] && (
-                    <div className='schedule-list'>
-                      {Object.entries(order.installments).map(([itemId, inst]) => {
-                        const paidCount = inst.schedule.filter(s => s.paid).length;
-                        const unpaidSchedule = inst.schedule.filter(s => !s.paid);
-                        const unpaidNos = unpaidSchedule.map(s => s.no);
-                        const totalAmount = unpaidSchedule.length * inst.pricePerMonth;
-
-                        return (
-                          <div key={itemId} className='schedule-item'>
-
-                            {/* Item header with summary */}
-                            <div className='schedule-item-header'>
-                              <p className='schedule-item-name'>{inst.itemName}</p>
-                              <div className='installment-summary'>
-                                <span className='inst-summary-badge paid-badge'>
-                                  ✓ {paidCount} Paid
-                                </span>
-                                <span className='inst-summary-badge pending-badge'>
-                                  ⏳ {unpaidSchedule.length} Pending
-                                </span>
-                                <span className='inst-summary-badge total-badge'>
-                                  {inst.totalMonths} Total
-                                </span>
-                              </div>
-                            </div>
-
-                            {/* Schedule rows */}
-                            <div className='schedule-rows'>
-                              {inst.schedule.map((s, j) => (
-                                <div key={j} className={`schedule-row ${s.paid ? 'paid' : 'unpaid'}`}>
-                                  <span className='sch-no'>Month {s.no}</span>
-                                  <span className='sch-date'>{formatDate(s.date)}</span>
-                                  <span className='sch-amount'>₹{s.amount}</span>
-                                  {s.paid ? (
-                                    <span className='sch-status sch-paid'>✓ Paid</span>
-                                  ) : (
-                                    <div className='sch-actions'>
-                                      <span className='sch-status sch-upcoming'>Pending</span>
-                                      <button
-                                        className='pay-now-btn'
-                                        onClick={() => handlePaySingle(order._id, itemId, s.no)}
-                                      >
-                                        Pay Now
-                                      </button>
-                                    </div>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-
-                            {/* Pay All Remaining button — only when 2+ unpaid */}
-                            {unpaidSchedule.length > 1 && (
-                              <button
-                                className='pay-all-btn'
-                                onClick={() => handlePayAll(order._id, itemId, unpaidNos)}
-                              >
-                                Pay All Remaining · ₹{totalAmount}
-                              </button>
-                            )}
-
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
+                  {/* Return Button — disabled if already requested */}
+                  <button
+                    className={`return-btn ${hasReturnRequest ? 'return-btn-disabled' : ''}`}
+                    onClick={() => !hasReturnRequest && navigate('/returnform', { state: { order } })}
+                    disabled={hasReturnRequest}
+                    title={hasReturnRequest ? `Return ${returnStatus}` : 'Request a return'}
+                  >
+                    {hasReturnRequest ? `Return ${returnStatus}` : '↩ Return'}
+                  </button>
                 </div>
-              )}
 
-              <button className='track-btn' onClick={fetchOrders}>
-                Refresh Status
-              </button>
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

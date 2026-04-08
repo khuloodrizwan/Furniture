@@ -300,6 +300,26 @@
   color: #fff;
 }
 
+/*Repeat Button */
+.return-btn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1.5px solid #004E59;
+  color: #004E59;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.return-btn:hover {
+  background: #004E59;
+  color: #fff;
+}
+
 /* Installment Summary Badges */
 .schedule-item-header {
   display: flex;
@@ -405,4 +425,99 @@
     flex-wrap: wrap;
     gap: 6px;
   }
+}
+/* ─────────────────────────────────────────────────────
+   ADD THESE STYLES TO YOUR EXISTING MyOrders.css FILE
+   ───────────────────────────────────────────────────── */
+
+/* Return Status Badge — shown below delivery status */
+.return-status-badge {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin: 6px 0 4px;
+}
+
+.return-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.return-status-requested {
+  background: #fff8ec;
+  color: #c8860a;
+  border: 1px solid #ffe4b2;
+}
+.return-status-requested .return-status-dot { background: #c8860a; }
+
+.return-status-approved {
+  background: #eefaf3;
+  color: #16a34a;
+  border: 1px solid #c3e8d4;
+}
+.return-status-approved .return-status-dot { background: #16a34a; }
+
+.return-status-rejected {
+  background: #fff0f0;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+.return-status-rejected .return-status-dot { background: #dc2626; }
+
+.refund-amount-tag {
+  font-weight: 700;
+}
+
+.pickup-schedule-tag {
+  font-weight: 400;
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+/* Order actions row — Refresh + Return side by side */
+.order-actions-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.order-actions-row .track-btn {
+  flex: 1;
+}
+
+/* Return Button */
+.return-btn {
+  flex: 1;
+  padding: 10px 16px;
+  background: #fff;
+  color: #004E59;
+  border: 1.5px solid #004E59;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-family: inherit;
+}
+.return-btn:hover:not(:disabled) {
+  background: #004E59;
+  color: #fff;
+}
+
+/* Disabled return button when return already requested */
+.return-btn-disabled,
+.return-btn:disabled {
+  background: #f5f0ea;
+  color: #aaa;
+  border-color: #e0dbd3;
+  cursor: not-allowed;
+  font-size: 12px;
 }

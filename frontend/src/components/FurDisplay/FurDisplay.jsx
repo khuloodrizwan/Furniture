@@ -5,7 +5,7 @@ import { StoreContext } from '../../Context/StoreContext'
 
 const FurDisplay = ({category}) => {
 
-  const {fur_list} = useContext(StoreContext);
+  const { fur_list = [] } = useContext(StoreContext);
 
   return (
     <div className='fur-display' id='fur-display'>
