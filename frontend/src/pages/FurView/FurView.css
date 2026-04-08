@@ -28,9 +28,7 @@
     transition: color 0.2s;
 }
 
-.furview-breadcrumb span:hover {
-    color: #004E59;
-}
+.furview-breadcrumb span:hover { color: #004E59; }
 
 .furview-breadcrumb span.active {
     color: #2c1a0e;
@@ -51,8 +49,9 @@
     box-shadow: 0 4px 30px rgba(0,0,0,0.08);
 }
 
-/* Images */
+/* Main Image */
 .furview-main-img {
+    position: relative;
     width: 100%;
     border-radius: 14px;
     overflow: hidden;
@@ -67,36 +66,73 @@
     transition: transform 0.3s ease;
 }
 
-.furview-main-img img:hover {
-    transform: scale(1.03);
+.furview-main-img img:hover { transform: scale(1.03); }
+
+/* Deal Badge */
+.furview-deal-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: #e63946;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.4px;
+    z-index: 2;
+    font-family: sans-serif;
+    box-shadow: 0 2px 8px rgba(230,57,70,0.35);
 }
 
-.furview-thumbnails {
-    display: flex;
-    gap: 10px;
-    margin-top: 14px;
-    flex-wrap: wrap;
-}
-
-.furview-thumb {
-    width: 80px;
-    height: 80px;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 2.5px solid transparent;
+/* Arrows */
+.furview-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.88);
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    font-size: 22px;
     cursor: pointer;
-    transition: border-color 0.2s;
-    background: #f0ebe4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    color: #2c1a0e;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    transition: background 0.2s;
+    line-height: 1;
 }
 
-.furview-thumb.active {
-    border-color: #004E59;
+.furview-arrow:hover { background: #fff; }
+.furview-arrow-left { left: 12px; }
+.furview-arrow-right { right: 12px; }
+
+/* Dots */
+.furview-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
 }
 
-.furview-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.furview-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: none;
+    background: #d6cdc6;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.furview-dot.active {
+    background: #004E59;
+    transform: scale(1.3);
 }
 
 /* Details */
@@ -140,11 +176,26 @@
     margin: 0 0 6px;
 }
 
+.furview-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.price-original {
+    font-size: 1.1rem;
+    color: #bbb;
+    text-decoration: line-through;
+    font-family: sans-serif;
+    font-weight: 400;
+}
+
 .price-amount {
     font-size: 2rem;
     font-weight: 700;
     color: #004E59;
     margin: 0;
+    font-family: Georgia, serif;
 }
 
 .price-amount span {
@@ -199,9 +250,7 @@
     color: #fff;
 }
 
-.month-btn.active span {
-    color: rgba(255,255,255,0.75);
-}
+.month-btn.active span { color: rgba(255,255,255,0.75); }
 
 /* Total */
 .furview-total {
@@ -215,15 +264,8 @@
     font-family: sans-serif;
 }
 
-.furview-total span {
-    font-size: 14px;
-    color: #666;
-}
-
-.furview-total strong {
-    font-size: 1.3rem;
-    color: #2c1a0e;
-}
+.furview-total span { font-size: 14px; color: #666; }
+.furview-total strong { font-size: 1.3rem; color: #2c1a0e; }
 
 /* Cart Button */
 .furview-cart-btn {
@@ -261,7 +303,6 @@
         gap: 28px;
         padding: 24px;
     }
-
     .month-btn {
         padding: 8px 14px;
         font-size: 12px;

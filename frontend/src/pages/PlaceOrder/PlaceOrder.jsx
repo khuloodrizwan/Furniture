@@ -11,8 +11,19 @@ const PlaceOrder = () => {
         city: "", state: "", zipcode: "", country: "", phone: ""
     });
 
-    const { getTotalCartAmount, token, fur_list, cartItems, url, setCartItems, currency, deliveryCharge } = useContext(StoreContext);
+    const { token, fur_list, cartItems, url, setCartItems, currency, deliveryCharge } = useContext(StoreContext);
     const navigate = useNavigate();
+
+    const getEffectivePrice = (item) => {
+        if (!item.isDealActive || !item.discountValue) return item.price;
+        if (item.discountType === "percentage") return parseFloat((item.price * (1 - item.discountValue / 100)).toFixed(2));
+        if (item.discountType === "flat") return parseFloat((item.price - item.discountValue).toFixed(2));
+        return item.price;
+    }
+
+    const cartFurs = fur_list.filter(item => cartItems[item._id]?.quantity > 0);
+    const subtotal = cartFurs.reduce((sum, item) => sum + getEffectivePrice(item), 0);
+    const grandTotal = parseFloat((subtotal + deliveryCharge).toFixed(2));
 
     const onChangeHandler = (event) => {
         const name = event.target.name;
@@ -28,18 +39,17 @@ const PlaceOrder = () => {
             if (cartItems[item._id]?.quantity > 0) {
                 orderItems.push({
                     ...item,
+                    price: getEffectivePrice(item),
                     quantity: cartItems[item._id].quantity,
                     months: cartItems[item._id].months || 1,
                 });
             }
         });
 
-        const totalAmount = getTotalCartAmount() + deliveryCharge;
-
         let orderData = {
             address: data,
             items: orderItems,
-            amount: totalAmount,
+            amount: grandTotal,
         };
 
         let response = await axios.post(url + "/api/order/place", orderData, { headers: { token } });
@@ -91,19 +101,16 @@ const PlaceOrder = () => {
         if (!token) {
             toast.error("Please sign in to place an order");
             navigate('/cart');
-        } else if (getTotalCartAmount() === 0) {
+        } else if (cartFurs.length === 0) {
             navigate('/cart');
         }
     }, [token]);
-
-    const cartFurs = fur_list.filter(item => cartItems[item._id]?.quantity > 0);
 
     return (
         <div className='place-order'>
             <div className='place-order-inner'>
                 <form onSubmit={placeOrder} className='place-order-form'>
 
-                    {/* Left: Address */}
                     <div className="place-order-left">
                         <h2 className='section-heading'>Delivery Information</h2>
                         <div className="multi-field">
@@ -123,30 +130,34 @@ const PlaceOrder = () => {
                         <input type="text" name='phone' onChange={onChangeHandler} value={data.phone} placeholder='Phone' required />
                     </div>
 
-                    {/* Right: Summary + Pay */}
                     <div className="place-order-right">
                         <h2 className='section-heading'>Order Summary</h2>
 
                         <div className='order-items-list'>
                             {cartFurs.map(item => {
-    const months = cartItems[item._id]?.months || 1;
-    return (
-        <div key={item._id} className='order-item-row'>
-            <img src={url + "/images/" + item.image} alt={item.name} />
-            <div className='order-item-info'>
-                <p className='order-item-name'>{item.name}</p>
-                <p className='order-item-duration'>{months} month{months > 1 ? 's' : ''} rental · 1st installment</p>
-            </div>
-            <p className='order-item-price'>₹{item.price}</p>
-        </div>
-    );
-})}
+                                const months = cartItems[item._id]?.months || 1;
+                                const effectivePrice = getEffectivePrice(item);
+                                const isDiscounted = effectivePrice !== item.price;
+                                return (
+                                    <div key={item._id} className='order-item-row'>
+                                        <img src={url + "/images/" + item.image} alt={item.name} />
+                                        <div className='order-item-info'>
+                                            <p className='order-item-name'>{item.name}</p>
+                                            <p className='order-item-duration'>{months} month{months > 1 ? 's' : ''} rental · 1st installment</p>
+                                        </div>
+                                        <div className='order-item-price-wrap'>
+                                            {isDiscounted && <span className='order-price-original'>₹{item.price}</span>}
+                                            <p className='order-item-price'>₹{effectivePrice}</p>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
 
                         <div className='order-totals'>
                             <div className='order-total-row'>
                                 <span>Subtotal</span>
-                                <span>₹{getTotalCartAmount()}</span>
+                                <span>₹{subtotal.toFixed(2)}</span>
                             </div>
                             <div className='order-total-row'>
                                 <span>Delivery</span>
@@ -155,7 +166,7 @@ const PlaceOrder = () => {
                             <hr />
                             <div className='order-total-row grand'>
                                 <strong>Total</strong>
-                                <strong>₹{getTotalCartAmount() + deliveryCharge}</strong>
+                                <strong>₹{grandTotal}</strong>
                             </div>
                         </div>
 
@@ -165,7 +176,7 @@ const PlaceOrder = () => {
                         </div>
 
                         <button type='submit' className='pay-btn'>
-                            Pay ₹{getTotalCartAmount() + deliveryCharge}
+                            Pay ₹{grandTotal}
                         </button>
                     </div>
                 </form>

@@ -27,6 +27,9 @@ const addFur = async (req, res) => {
             category: req.body.category,
             image: image_filename,
             images: extra_images,
+            isDealActive: req.body.isDealActive === "true",
+            discountType: req.body.discountType || "percentage",
+            discountValue: Number(req.body.discountValue) || 0,
         })
 
         await fur.save();

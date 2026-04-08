@@ -37,6 +37,22 @@
     transform: scale(1.06);
 }
 
+/* Deal Badge */
+.fur-deal-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #e63946;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.4px;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(230, 57, 70, 0.35);
+}
+
 /* Favorite */
 .fur-fav-btn {
     position: absolute;
@@ -125,8 +141,17 @@
 .fur-item-price-wrap {
     display: flex;
     align-items: baseline;
-    gap: 2px;
+    gap: 4px;
     flex-shrink: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.fur-item-price-original {
+    font-size: 0.85rem;
+    color: #bbb;
+    text-decoration: line-through;
+    font-weight: 400;
 }
 
 .fur-item-price {
@@ -173,6 +198,7 @@
     background: #003840;
     transform: scale(1.02);
 }
+
 .fur-add-btn.added {
     background: #e8f5f0;
     color: #004E59;

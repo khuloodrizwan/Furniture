@@ -11,6 +11,13 @@ const Cart = () => {
 
   const cartFurs = fur_list.filter(item => cartItems[item._id]?.quantity > 0);
 
+  const getEffectivePrice = (item) => {
+    if (!item.isDealActive || !item.discountValue) return item.price;
+    if (item.discountType === "percentage") return parseFloat((item.price * (1 - item.discountValue / 100)).toFixed(2));
+    if (item.discountType === "flat") return parseFloat((item.price - item.discountValue).toFixed(2));
+    return item.price;
+  }
+
   const getInstallments = (price, months) => {
     const schedule = [];
     const today = new Date();
@@ -26,8 +33,7 @@ const Cart = () => {
     return schedule;
   }
 
-  // First month total across all items
-  const firstMonthTotal = cartFurs.reduce((sum, item) => sum + item.price, 0);
+  const firstMonthTotal = cartFurs.reduce((sum, item) => sum + getEffectivePrice(item), 0);
 
   return (
     <div className='cart'>
@@ -48,7 +54,9 @@ const Cart = () => {
             <div className='cart-items-list'>
               {cartFurs.map((item) => {
                 const months = cartItems[item._id]?.months || 1;
-                const schedule = getInstallments(item.price, months);
+                const effectivePrice = getEffectivePrice(item);
+                const isDiscounted = effectivePrice !== item.price;
+                const schedule = getInstallments(effectivePrice, months);
 
                 return (
                   <div key={item._id} className='cart-card'>
@@ -57,7 +65,17 @@ const Cart = () => {
                       <div className='cart-card-info'>
                         <h3>{item.name}</h3>
                         <p className='cart-card-category'>{item.category}</p>
-                        <p className='cart-card-price'>₹{item.price}<span>/month</span></p>
+                        <div className='cart-card-price-wrap'>
+                          {isDiscounted && (
+                            <span className='cart-price-original'>₹{item.price}</span>
+                          )}
+                          <span className='cart-card-price'>₹{effectivePrice}<span>/month</span></span>
+                          {isDiscounted && (
+                            <span className='cart-deal-badge'>
+                              {item.discountType === "percentage" ? `${item.discountValue}% OFF` : `₹${item.discountValue} OFF`}
+                            </span>
+                          )}
+                        </div>
 
                         <div className='cart-month-selector'>
                           <p>Rental Duration:</p>
@@ -76,13 +94,12 @@ const Cart = () => {
                       </div>
 
                       <div className='cart-card-right'>
-                        <p className='cart-card-total'>₹{item.price}</p>
+                        <p className='cart-card-total'>₹{effectivePrice}</p>
                         <p className='cart-card-total-label'>due now</p>
                         <button className='cart-remove-btn' onClick={() => removeFromCart(item._id)}>Remove</button>
                       </div>
                     </div>
 
-                    {/* Installment Schedule - reference only */}
                     <div className='cart-installments'>
                       <p className='installment-title'>📅 Upcoming Payment Schedule ({months} month{months > 1 ? 's' : ''})</p>
                       <div className='installment-list'>
@@ -107,10 +124,11 @@ const Cart = () => {
               <div className='summary-rows'>
                 {cartFurs.map(item => {
                   const months = cartItems[item._id]?.months || 1;
+                  const effectivePrice = getEffectivePrice(item);
                   return (
                     <div key={item._id} className='summary-row'>
                       <span>{item.name} <span style={{color:'#bbb', fontSize:'11px'}}>({months}mo)</span></span>
-                      <span>₹{item.price}</span>
+                      <span>₹{effectivePrice}</span>
                     </div>
                   );
                 })}
@@ -122,7 +140,7 @@ const Cart = () => {
                 <hr />
                 <div className='summary-row total-row'>
                   <strong>Due Today</strong>
-                  <strong>₹{firstMonthTotal + deliveryCharge}</strong>
+                  <strong>₹{(firstMonthTotal + deliveryCharge).toFixed(2)}</strong>
                 </div>
               </div>
               <p className='summary-note'>Only first month's rent is charged now. Remaining installments billed monthly.</p>

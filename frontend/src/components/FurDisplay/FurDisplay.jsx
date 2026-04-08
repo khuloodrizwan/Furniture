@@ -13,7 +13,17 @@ const FurDisplay = ({category}) => {
       <div className='fur-display-list'>
         {fur_list.map((item,index)=>{
           if (category==="All" || category===item.category) {
-            return <FurItem key={index} id={item._id} name={item.name} description={item.description} price={item.price}  image={item.image}/>
+            return <FurItem 
+              key={index} 
+              id={item._id} 
+              name={item.name} 
+              description={item.description} 
+              price={item.price} 
+              image={item.image}
+              isDealActive={item.isDealActive}
+              discountType={item.discountType}
+              discountValue={item.discountValue}
+            />
           }
         })}
       </div>

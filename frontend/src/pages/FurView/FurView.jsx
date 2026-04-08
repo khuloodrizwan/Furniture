@@ -11,16 +11,17 @@ const FurView = () => {
     const { fur_list, url, addToCart, cartItems } = useContext(StoreContext);
 
     const [fur, setFur] = useState(null);
-    const [selectedMonth, setSelectedMonth] = useState(1);
-    const [mainImage, setMainImage] = useState('');
+    const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
         const found = fur_list.find(f => f._id === id);
         if (found) {
             setFur(found);
-            setMainImage(`${url}/images/${found.image}`);
+            setActiveIndex(0);
         }
     }, [id, fur_list]);
+
+    const [selectedMonth, setSelectedMonth] = useState(1);
 
     if (!fur) return <div className='furview-loading'>Loading...</div>;
 
@@ -29,7 +30,23 @@ const FurView = () => {
         ...(fur.images || []).map(img => `${url}/images/${img}`)
     ];
 
-    const totalPrice = fur.price * selectedMonth;
+    const getDiscountedPrice = () => {
+        if (!fur.isDealActive || !fur.discountValue) return null;
+        if (fur.discountType === "percentage") return (fur.price * (1 - fur.discountValue / 100)).toFixed(2);
+        if (fur.discountType === "flat") return (fur.price - fur.discountValue).toFixed(2);
+        return null;
+    }
+
+    const discountedPrice = getDiscountedPrice();
+    const effectivePrice = discountedPrice ? parseFloat(discountedPrice) : fur.price;
+    const badgeLabel = fur.isDealActive && fur.discountValue
+        ? (fur.discountType === "percentage" ? `${fur.discountValue}% OFF` : `₹${fur.discountValue} OFF`)
+        : null;
+
+    const totalPrice = effectivePrice * selectedMonth;
+
+    const prevImage = () => setActiveIndex(i => (i - 1 + allImages.length) % allImages.length);
+    const nextImage = () => setActiveIndex(i => (i + 1) % allImages.length);
 
     return (
         <div className='furview-page'>
@@ -48,18 +65,24 @@ const FurView = () => {
                 {/* Left: Images */}
                 <div className='furview-images'>
                     <div className='furview-main-img'>
-                        <img src={mainImage} alt={fur.name} />
+                        <img src={allImages[activeIndex]} alt={fur.name} />
+                        {badgeLabel && <span className='furview-deal-badge'>{badgeLabel}</span>}
+                        {allImages.length > 1 && (
+                            <>
+                                <button className='furview-arrow furview-arrow-left' onClick={prevImage}>&#8249;</button>
+                                <button className='furview-arrow furview-arrow-right' onClick={nextImage}>&#8250;</button>
+                            </>
+                        )}
                     </div>
+
                     {allImages.length > 1 && (
-                        <div className='furview-thumbnails'>
-                            {allImages.map((img, i) => (
-                                <div
+                        <div className='furview-dots'>
+                            {allImages.map((_, i) => (
+                                <button
                                     key={i}
-                                    className={`furview-thumb ${mainImage === img ? 'active' : ''}`}
-                                    onClick={() => setMainImage(img)}
-                                >
-                                    <img src={img} alt={`thumb-${i}`} />
-                                </div>
+                                    className={`furview-dot ${activeIndex === i ? 'active' : ''}`}
+                                    onClick={() => setActiveIndex(i)}
+                                />
                             ))}
                         </div>
                     )}
@@ -74,7 +97,14 @@ const FurView = () => {
                     {/* Price Box */}
                     <div className='furview-price-box'>
                         <p className='price-label'>STARTING FROM</p>
-                        <p className='price-amount'>₹{fur.price}<span>/month</span></p>
+                        {discountedPrice ? (
+                            <div className='furview-price-row'>
+                                <span className='price-original'>₹{fur.price}</span>
+                                <span className='price-amount'>₹{discountedPrice}<span>/month</span></span>
+                            </div>
+                        ) : (
+                            <p className='price-amount'>₹{fur.price}<span>/month</span></p>
+                        )}
                     </div>
 
                     {/* Month Selector */}
@@ -88,7 +118,7 @@ const FurView = () => {
                                     onClick={() => setSelectedMonth(m)}
                                 >
                                     {m} {m === 1 ? 'Month' : 'Months'}
-                                    <span>₹{fur.price * m}</span>
+                                    <span>₹{(effectivePrice * m).toFixed(2)}</span>
                                 </button>
                             ))}
                         </div>
@@ -97,7 +127,7 @@ const FurView = () => {
                     {/* Total */}
                     <div className='furview-total'>
                         <span>Total for {selectedMonth} {selectedMonth === 1 ? 'month' : 'months'}:</span>
-                        <strong>₹{totalPrice}</strong>
+                        <strong>₹{totalPrice.toFixed(2)}</strong>
                     </div>
 
                     {/* Add to Cart */}

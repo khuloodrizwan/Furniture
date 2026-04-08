@@ -12,7 +12,10 @@ const Add = ({ url }) => {
         name: "",
         description: "",
         price: "",
-        category: "Living Room"
+        category: "Living Room",
+        isDealActive: false,
+        discountType: "percentage",
+        discountValue: "",
     });
 
     const onSubmitHandler = async (event) => {
@@ -29,6 +32,9 @@ const Add = ({ url }) => {
         formData.append("price", Number(data.price));
         formData.append("category", data.category);
         formData.append("image", image);
+        formData.append("isDealActive", data.isDealActive);
+        formData.append("discountType", data.discountType);
+        formData.append("discountValue", Number(data.discountValue) || 0);
         extraImages.forEach((img) => {
             formData.append("images", img);
         });
@@ -36,7 +42,7 @@ const Add = ({ url }) => {
         const response = await axios.post(`${url}/api/fur/add`, formData);
         if (response.data.success) {
             toast.success(response.data.message);
-            setData({ name: "", description: "", price: "", category: data.category });
+            setData({ name: "", description: "", price: "", category: data.category, isDealActive: false, discountType: "percentage", discountValue: "" });
             setImage(false);
             setExtraImages([]);
         } else {
@@ -62,6 +68,15 @@ const Add = ({ url }) => {
 
     const removeExtraImage = (index) => {
         setExtraImages(prev => prev.filter((_, i) => i !== index));
+    }
+
+    const discountedPrice = () => {
+        const p = Number(data.price);
+        const v = Number(data.discountValue);
+        if (!p || !v) return null;
+        if (data.discountType === "percentage") return (p * (1 - v / 100)).toFixed(2);
+        if (data.discountType === "flat") return (p - v).toFixed(2);
+        return null;
     }
 
     return (
@@ -131,6 +146,51 @@ const Add = ({ url }) => {
                         <p>Price / month (₹)</p>
                         <input type="number" name='price' onChange={onChangeHandler} value={data.price} placeholder='e.g. 499' required />
                     </div>
+                </div>
+
+                {/* Deal / Discount */}
+                <div className='add-deal-section flex-col'>
+                    <p>Deal / Discount</p>
+                    <div className='deal-toggle-row'>
+                        <label className='deal-toggle-label'>
+                            <input
+                                type='checkbox'
+                                checked={data.isDealActive}
+                                onChange={(e) => setData(d => ({ ...d, isDealActive: e.target.checked }))}
+                            />
+                            Enable Deal
+                        </label>
+                    </div>
+
+                    {data.isDealActive && (
+                        <div className='deal-fields'>
+                            <div className='flex-col'>
+                                <p>Discount Type</p>
+                                <select name='discountType' onChange={onChangeHandler} value={data.discountType}>
+                                    <option value="percentage">Percentage (%)</option>
+                                    <option value="flat">Flat (₹)</option>
+                                </select>
+                            </div>
+                            <div className='flex-col'>
+                                <p>Discount Value</p>
+                                <input
+                                    type='number'
+                                    name='discountValue'
+                                    onChange={onChangeHandler}
+                                    value={data.discountValue}
+                                    placeholder={data.discountType === "percentage" ? "e.g. 20" : "e.g. 100"}
+                                    min={0}
+                                />
+                            </div>
+                            {discountedPrice() && (
+                                <div className='deal-preview'>
+                                    <span>Preview:</span>
+                                    <span className='deal-original'>₹{data.price}</span>
+                                    <span className='deal-final'>₹{discountedPrice()}/mo</span>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 <button type='submit' className='add-btn'>ADD FURNITURE</button>

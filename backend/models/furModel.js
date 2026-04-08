@@ -7,6 +7,9 @@ const furSchema = new mongoose.Schema({
     category: { type: String, required: true },
     image: { type: String, required: true },
     images: { type: [String], default: [] },
+    isDealActive: { type: Boolean, default: false },
+    discountType: { type: String, enum: ["percentage", "flat"], default: "percentage" },
+    discountValue: { type: Number, default: 0 },
 })
 
 const furModel = mongoose.models.fur || mongoose.model("fur", furSchema);

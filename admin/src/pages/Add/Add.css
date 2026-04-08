@@ -126,3 +126,71 @@
     border-radius: 10px;
     white-space: nowrap;
 }
+
+/* Deal / Discount */
+.add-deal-section {
+    width: max(40%, 280px);
+}
+
+.deal-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.deal-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #444;
+}
+
+.deal-toggle-label input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    accent-color: #004E59;
+    cursor: pointer;
+}
+
+.deal-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 12px;
+    align-items: flex-end;
+}
+
+.deal-fields select,
+.deal-fields input[type='number'] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    max-width: 160px;
+}
+
+.deal-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f0faf8;
+    border: 1px solid #b2ddd6;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: #444;
+}
+
+.deal-original {
+    text-decoration: line-through;
+    color: #999;
+    font-weight: 500;
+}
+
+.deal-final {
+    color: #004E59;
+    font-weight: 700;
+    font-size: 15px;
+}

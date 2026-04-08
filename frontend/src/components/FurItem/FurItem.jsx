@@ -5,10 +5,26 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-const FurItem = ({ id, name, price, description, image }) => {
+const FurItem = ({ id, name, price, description, image, isDealActive, discountType, discountValue }) => {
     const { cartItems = {}, addToCart, removeFromCart, url, token } = useContext(StoreContext);
     const [isFavorited, setIsFavorited] = useState(false);
     const navigate = useNavigate();
+
+    const getDiscountedPrice = () => {
+        if (!isDealActive || !discountValue) return null;
+        if (discountType === "percentage") return (price * (1 - discountValue / 100)).toFixed(2);
+        if (discountType === "flat") return (price - discountValue).toFixed(2);
+        return null;
+    }
+
+    const getBadgeLabel = () => {
+        if (!isDealActive || !discountValue) return null;
+        if (discountType === "percentage") return `${discountValue}% OFF`;
+        return `₹${discountValue} OFF`;
+    }
+
+    const discountedPrice = getDiscountedPrice();
+    const badgeLabel = getBadgeLabel();
 
     const handleFavorite = async (e) => {
         e.stopPropagation();
@@ -42,6 +58,7 @@ const FurItem = ({ id, name, price, description, image }) => {
         <div className='fur-item'>
             <div className='fur-item-img-wrap'>
                 <img src={url + "/images/" + image} alt={name} className='fur-item-img' />
+                {badgeLabel && <span className='fur-deal-badge'>{badgeLabel}</span>}
                 <button className={`fur-fav-btn ${isFavorited ? 'favorited' : ''}`} onClick={handleFavorite}>
                     {isFavorited ? '❤️' : '🤍'}
                 </button>
@@ -56,8 +73,18 @@ const FurItem = ({ id, name, price, description, image }) => {
                 <div className='fur-item-top'>
                     <h3 className='fur-item-name'>{name}</h3>
                     <div className='fur-item-price-wrap'>
-                        <span className='fur-item-price'>₹{price}</span>
-                        <span className='fur-item-per'>/mo</span>
+                        {discountedPrice ? (
+                            <>
+                                <span className='fur-item-price-original'>₹{price}</span>
+                                <span className='fur-item-price'>₹{discountedPrice}</span>
+                                <span className='fur-item-per'>/mo</span>
+                            </>
+                        ) : (
+                            <>
+                                <span className='fur-item-price'>₹{price}</span>
+                                <span className='fur-item-per'>/mo</span>
+                            </>
+                        )}
                     </div>
                 </div>
                 <p className='fur-item-desc'>{description}</p>
