@@ -120,3 +120,26 @@
     font-size: 11px;
     color: #555;
 }
+@media (max-width: 1024px) {
+  .analytics-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .analytics-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .profit-input {
+    flex-direction: column;
+  }
+  .profit-input input {
+    width: 100%;
+  }
+  .chart {
+    gap: 8px;
+  }
+  .bar {
+    width: 20px;
+  }
+}
