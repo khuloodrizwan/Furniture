@@ -52,7 +52,6 @@ const Order = ({ url }) => {
         {orders.map((order, index) => {
           const isExpanded = expanded[order._id];
 
-          // Compute installment summary across all items
           let totalInstallments = 0;
           let paidInstallments = 0;
           let pendingInstallments = 0;
@@ -77,7 +76,7 @@ const Order = ({ url }) => {
           return (
             <div key={index} className='order-item'>
 
-              {/* Row 1: Icon + Customer + Items */}
+              {/* TOP ROW: icon + customer + items */}
               <div className='order-row-top'>
                 <img src={assets.parcel_icon} alt="" />
 
@@ -102,6 +101,11 @@ const Order = ({ url }) => {
                   ))}
                   <p className='order-items-count'>{order.items.length} item{order.items.length > 1 ? 's' : ''}</p>
                 </div>
+              </div>
+              {/* TOP ROW END */}
+
+              {/* BOTTOM ROW: finance + badges + controls */}
+              <div className='order-row-bottom'>
 
                 <div className='order-finance-block'>
                   <div className='finance-row'>
@@ -149,7 +153,9 @@ const Order = ({ url }) => {
                     </button>
                   )}
                 </div>
+
               </div>
+              {/* BOTTOM ROW END */}
 
               {/* Installment Schedule Expanded */}
               {isExpanded && order.installments && (
