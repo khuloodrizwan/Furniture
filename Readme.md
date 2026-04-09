@@ -240,8 +240,8 @@ Feel free to use and modify it for educational and commercial purposes.
 **Khulood Chivilkar**
 
 * 🔗 GitHub: [https://github.com/khuloodrizwan](https://github.com/khuloodrizwan)
-* 💼 LinkedIn:[https://www.linkedin.com/in/khulood-chivilkar-300617309] (https://www.linkedin.com/in/khulood-chivilkar-300617309)
-* 📧 Email: [chivilkarkhulood@gmail.com] (chivilkarkhulood@gmail.com)
+* 💼 LinkedIn:https://www.linkedin.com/in/khulood-chivilkar-300617309
+* 📧 Email: chivilkarkhulood@gmail.com
 
 ---
 
