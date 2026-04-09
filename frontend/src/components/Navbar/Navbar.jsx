@@ -8,6 +8,7 @@ const Navbar = ({ setShowLogin }) => {
 
   const [menu, setMenu] = useState("home");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
   const navigate = useNavigate();
@@ -18,10 +19,12 @@ const Navbar = ({ setShowLogin }) => {
     navigate('/');
   }
 
-  // Close dropdown when clicking outside
+  // Close dropdown + mobile menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = () => setShowDropdown(false);
-
+    const handleClickOutside = () => {
+      setShowDropdown(false);
+      setMobileMenuOpen(false);
+    };
     window.addEventListener("click", handleClickOutside);
     return () => window.removeEventListener("click", handleClickOutside);
   }, []);
@@ -31,11 +34,26 @@ const Navbar = ({ setShowLogin }) => {
       
       <Link to='/' className='logo'>RentEase</Link>
 
-      <ul className="navbar-menu">
-        <Link to="/#home" onClick={() => setMenu("home")} className={menu === "home" ? "active" : ""}>Home</Link>
-        <Link to="/furnitures" onClick={() => setMenu("furnitures")} className={menu === "furnitures" ? "active" : ""}>Furniture</Link>
-        <Link to="/deals" onClick={() => setMenu("deals")} className={menu === "deals" ? "active" : ""}>Deals</Link>
-        <a href='/#about' onClick={() => setMenu("about")} className={menu === "about" ? "active" : ""}>About Us</a>
+      {/* Mobile hamburger */}
+      <button
+  className={`hamburger ${mobileMenuOpen ? 'open' : ''}`}
+  onClick={(e) => {
+    e.stopPropagation();
+    setMobileMenuOpen(prev => !prev);
+  }}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul className={`navbar-menu ${mobileMenuOpen ? 'open' : ''}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Link to="/#home" onClick={() => { setMenu("home"); setMobileMenuOpen(false); }} className={menu === "home" ? "active" : ""}>Home</Link>
+        <Link to="/furnitures" onClick={() => { setMenu("furnitures"); setMobileMenuOpen(false); }} className={menu === "furnitures" ? "active" : ""}>Furniture</Link>
+        <Link to="/deals" onClick={() => { setMenu("deals"); setMobileMenuOpen(false); }} className={menu === "deals" ? "active" : ""}>Deals</Link>
+        <a href='/#about' onClick={() => { setMenu("about"); setMobileMenuOpen(false); }} className={menu === "about" ? "active" : ""}>About Us</a>
       </ul>
 
       <div className="navbar-right">
@@ -55,7 +73,7 @@ const Navbar = ({ setShowLogin }) => {
           <div 
             className="navbar-profile"
             onClick={(e) => {
-              e.stopPropagation(); // IMPORTANT
+              e.stopPropagation();
               setShowDropdown(prev => !prev);
             }}
           >
