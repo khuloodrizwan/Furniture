@@ -6,8 +6,6 @@ import furRouter from "./routes/furRoute.js"
 import 'dotenv/config'
 import cartRouter from "./routes/cartRoute.js"
 import orderRouter from "./routes/orderRoute.js"
-import aiRouter from "./routes/aiRoute.js"
-import chatRouter from "./routes/chatRoute.js"
 import favoriteRouter from "./routes/favoriteRoute.js"
 import analyticsRouter from "./routes/analyticsRoute.js"
 import couponRouter from "./routes/couponRoute.js"
@@ -29,8 +27,7 @@ app.use("/api/fur", furRouter)
 app.use("/images",express.static('uploads'))
 app.use("/api/cart", cartRouter)
 app.use("/api/order",orderRouter)
-app.use("/api/ai", aiRouter)
-app.use("/api/chat", chatRouter)
+
 app.use("/api/favorite", favoriteRouter)
 app.use("/api/analytics", analyticsRouter)
 app.use("/api/coupon", couponRouter)
