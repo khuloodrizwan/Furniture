@@ -17,7 +17,6 @@
 * [📁 Project Structure](#-project-structure)
 * [🚀 Installation and Setup](#-installation-and-setup)
 * [💻 Usage Guide](#-usage-guide)
-* [📸 Screenshots](#-screenshots)
 * [🔮 Future Enhancements](#-future-enhancements)
 * [🤝 Contributing](#-contributing)
 * [📜 License](#-license)
@@ -190,20 +189,6 @@ npm run dev
 
 *(Ports may vary based on configuration.)*
 
----
-
-## 📸 Screenshots
-
-| Page            | Preview                                                                      |
-| --------------- | ---------------------------------------------------------------------------- |
-| Home Page       | ![Home](https://via.placeholder.com/800x400?text=Home+Page)                  |
-| Product Listing | ![Products](https://via.placeholder.com/800x400?text=Product+Listing)        |
-| Product Details | ![Product Details](https://via.placeholder.com/800x400?text=Product+Details) |
-| Cart Page       | ![Cart](https://via.placeholder.com/800x400?text=Cart+Page)                  |
-| Admin Dashboard | ![Admin](https://via.placeholder.com/800x400?text=Admin+Dashboard)           |
-
----
-
 ## 🔮 Future Enhancements
 
 * 📱 Mobile application (Android & iOS)
@@ -255,8 +240,8 @@ Feel free to use and modify it for educational and commercial purposes.
 **Khulood Chivilkar**
 
 * 🔗 GitHub: [https://github.com/khuloodrizwan](https://github.com/khuloodrizwan)
-* 💼 LinkedIn: *Add Your LinkedIn Profile Link*
-* 📧 Email: *Add Your Email Address*
+* 💼 LinkedIn:[https://www.linkedin.com/in/khulood-chivilkar-300617309] (https://www.linkedin.com/in/khulood-chivilkar-300617309)
+* 📧 Email: [chivilkarkhulood@gmail.com] (chivilkarkhulood@gmail.com)
 
 ---
 
@@ -281,8 +266,3 @@ If you found this project helpful, please consider giving it a star!
 
 ---
 
-If you'd like, I can:
-
-* Add real screenshots from your project,
-* Include deployment links, or
-* Generate a professional portfolio description for your resume and LinkedIn.
