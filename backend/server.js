@@ -16,8 +16,15 @@ const port = process.env.PORT || 4000;
 
 // middlewares
 app.use(express.json())
-app.use(cors())
-
+app.use(cors({
+  origin: [
+    "https://furniture-frontend-beryl.vercel.app",
+    "https://furniture-admin-gamma.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:3000"
+  ],
+  credentials: true
+}));
 // db connection
 connectDB()
 
