@@ -13,7 +13,7 @@ import ReturnRequests from './pages/ReturnRequests/ReturnRequests'
 
 const App = () => {
 
-  const url = "http://localhost:4000";
+  const url = import.meta.env.VITE_API_URL
 
   return (
     <div className='app'>
