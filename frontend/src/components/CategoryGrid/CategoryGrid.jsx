@@ -1,6 +1,7 @@
 import React from 'react'
 import './CategoryGrid.css'
 import { assets } from '../../assets/assets'
+import { Link } from 'react-router-dom';
 
 const CategoryGrid = () => {
     return (
@@ -14,7 +15,8 @@ const CategoryGrid = () => {
                     <div className="catgrid-overlay">
                         <span className="catgrid-label">Living Room</span>
                         <span className="catgrid-desc">Elevate your common space.</span>
-                        <a href="/furniture" className="catgrid-link">Explore →</a>
+                        
+                        <Link to="/furnitures" className="catgrid-link">Explore →</Link>
                     </div>
                 </div>
 
@@ -22,7 +24,8 @@ const CategoryGrid = () => {
                 <div className="catgrid-card catgrid-small catgrid-top-right" style={{ backgroundImage: `url(${assets.t_r})` }}>
                     <div className="catgrid-overlay">
                         <span className="catgrid-label">Bedroom</span>
-                        <a href="/furniture" className="catgrid-link">View Collection →</a>
+                
+                        <Link to="/furnitures" className="catgrid-link">View Collection →</Link>
                     </div>
                 </div>
 
@@ -32,7 +35,7 @@ const CategoryGrid = () => {
                         <span className="catgrid-badge">NEW TECH</span>
                         <span className="catgrid-label">Appliances</span>
                         <span className="catgrid-desc">Top-brand smart living.</span>
-                        <a href="/appliances" className="catgrid-link">View Brands →</a>
+                        <Link to="/furnitures" className="catgrid-link">View Collection →</Link>
                     </div>
                 </div>
 
@@ -41,6 +44,7 @@ const CategoryGrid = () => {
                     <div className="catgrid-overlay">
                         <span className="catgrid-label">Office</span>
                         <span className="catgrid-desc">Productivity Sets →</span>
+    
                     </div>
                 </div>
 

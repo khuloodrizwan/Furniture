@@ -52,7 +52,7 @@ const Navbar = ({ setShowLogin }) => {
       >
         <Link to="/#home" onClick={() => { setMenu("home"); setMobileMenuOpen(false); }} className={menu === "home" ? "active" : ""}>Home</Link>
         <Link to="/furnitures" onClick={() => { setMenu("furnitures"); setMobileMenuOpen(false); }} className={menu === "furnitures" ? "active" : ""}>Furniture</Link>
-        <Link to="/deals" onClick={() => { setMenu("deals"); setMobileMenuOpen(false); }} className={menu === "deals" ? "active" : ""}>Deals</Link>
+        
         <a href='/#about' onClick={() => { setMenu("about"); setMobileMenuOpen(false); }} className={menu === "about" ? "active" : ""}>About Us</a>
       </ul>
 
